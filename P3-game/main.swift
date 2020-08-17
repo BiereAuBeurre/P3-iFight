@@ -9,6 +9,6 @@
 import Foundation
 
 
-var manon = Player()
-manon.createMySquad()
-
+var game = Game()
+game.startGame()
+game.startFight()

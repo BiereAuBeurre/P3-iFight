@@ -16,7 +16,7 @@ class Weapon {
         self.damage = damage
         self.name = name
     }
-   
+    
     func chest() {
         // fait apparaitre une nouvelle arme aléatoire
     }

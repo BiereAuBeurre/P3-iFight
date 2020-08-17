@@ -12,7 +12,6 @@
 		EF8D003D24CED44A00FF4759 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003C24CED44A00FF4759 /* Player.swift */; };
 		EF8D003F24CED46D00FF4759 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003E24CED46D00FF4759 /* Character.swift */; };
 		EF8D004124CED48C00FF4759 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D004024CED48C00FF4759 /* Weapon.swift */; };
-		EF9BBA5224D180EC0014F753 /* Magicien.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9BBA5124D180EC0014F753 /* Magicien.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,7 +33,6 @@
 		EF8D003C24CED44A00FF4759 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		EF8D003E24CED46D00FF4759 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		EF8D004024CED48C00FF4759 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
-		EF9BBA5124D180EC0014F753 /* Magicien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magicien.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,9 +67,8 @@
 			children = (
 				EF8D003324CED1F100FF4759 /* main.swift */,
 				EF8D003A24CED2EF00FF4759 /* Game.swift */,
-				EF8D003C24CED44A00FF4759 /* Player.swift */,
 				EF8D003E24CED46D00FF4759 /* Character.swift */,
-				EF9BBA5124D180EC0014F753 /* Magicien.swift */,
+				EF8D003C24CED44A00FF4759 /* Player.swift */,
 				EF8D004024CED48C00FF4759 /* Weapon.swift */,
 			);
 			path = "P3-game";
@@ -139,7 +136,6 @@
 				EF8D003424CED1F100FF4759 /* main.swift in Sources */,
 				EF8D003D24CED44A00FF4759 /* Player.swift in Sources */,
 				EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */,
-				EF9BBA5224D180EC0014F753 /* Magicien.swift in Sources */,
 				EF8D003F24CED46D00FF4759 /* Character.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
