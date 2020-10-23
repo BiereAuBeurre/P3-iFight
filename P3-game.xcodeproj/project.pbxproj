@@ -7,11 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF766949252F4EA60075B0A1 /* MagicWand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF766948252F4EA60075B0A1 /* MagicWand.swift */; };
+		EF76694B252F4EBD0075B0A1 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76694A252F4EBD0075B0A1 /* Sword.swift */; };
+		EF76694D252F4EFC0075B0A1 /* FlameThrower.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76694C252F4EFC0075B0A1 /* FlameThrower.swift */; };
+		EF76694F252F4F180075B0A1 /* MagicPotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76694E252F4F180075B0A1 /* MagicPotion.swift */; };
+		EF766951252F4F2B0075B0A1 /* Fate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF766950252F4F2B0075B0A1 /* Fate.swift */; };
 		EF8D003424CED1F100FF4759 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003324CED1F100FF4759 /* main.swift */; };
 		EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003A24CED2EF00FF4759 /* Game.swift */; };
 		EF8D003D24CED44A00FF4759 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003C24CED44A00FF4759 /* Player.swift */; };
 		EF8D003F24CED46D00FF4759 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003E24CED46D00FF4759 /* Character.swift */; };
 		EF8D004124CED48C00FF4759 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D004024CED48C00FF4759 /* Weapon.swift */; };
+		EFF15F0824EAD60400F10582 /* Magicien.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF15F0724EAD60400F10582 /* Magicien.swift */; };
+		EFF15F0A24EAD7A000F10582 /* Chevalier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF15F0924EAD7A000F10582 /* Chevalier.swift */; };
+		EFF15F0C24EAE63100F10582 /* Dragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF15F0B24EAE63100F10582 /* Dragon.swift */; };
+		EFF15F0E24EAE63D00F10582 /* Druide.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF15F0D24EAE63D00F10582 /* Druide.swift */; };
+		EFF15F1024EAE64C00F10582 /* Sorcier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF15F0F24EAE64C00F10582 /* Sorcier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,12 +37,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF766948252F4EA60075B0A1 /* MagicWand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicWand.swift; sourceTree = "<group>"; };
+		EF76694A252F4EBD0075B0A1 /* Sword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
+		EF76694C252F4EFC0075B0A1 /* FlameThrower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlameThrower.swift; sourceTree = "<group>"; };
+		EF76694E252F4F180075B0A1 /* MagicPotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicPotion.swift; sourceTree = "<group>"; };
+		EF766950252F4F2B0075B0A1 /* Fate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fate.swift; sourceTree = "<group>"; };
 		EF8D003024CED1F100FF4759 /* P3-game */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "P3-game"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D003324CED1F100FF4759 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		EF8D003A24CED2EF00FF4759 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		EF8D003C24CED44A00FF4759 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		EF8D003E24CED46D00FF4759 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		EF8D004024CED48C00FF4759 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
+		EFF15F0724EAD60400F10582 /* Magicien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magicien.swift; sourceTree = "<group>"; };
+		EFF15F0924EAD7A000F10582 /* Chevalier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chevalier.swift; sourceTree = "<group>"; };
+		EFF15F0B24EAE63100F10582 /* Dragon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon.swift; sourceTree = "<group>"; };
+		EFF15F0D24EAE63D00F10582 /* Druide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Druide.swift; sourceTree = "<group>"; };
+		EFF15F0F24EAE64C00F10582 /* Sorcier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorcier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,9 +87,19 @@
 			children = (
 				EF8D003324CED1F100FF4759 /* main.swift */,
 				EF8D003A24CED2EF00FF4759 /* Game.swift */,
-				EF8D003E24CED46D00FF4759 /* Character.swift */,
 				EF8D003C24CED44A00FF4759 /* Player.swift */,
+				EF8D003E24CED46D00FF4759 /* Character.swift */,
+				EFF15F0724EAD60400F10582 /* Magicien.swift */,
+				EFF15F0924EAD7A000F10582 /* Chevalier.swift */,
+				EFF15F0B24EAE63100F10582 /* Dragon.swift */,
+				EFF15F0D24EAE63D00F10582 /* Druide.swift */,
+				EFF15F0F24EAE64C00F10582 /* Sorcier.swift */,
 				EF8D004024CED48C00FF4759 /* Weapon.swift */,
+				EF766950252F4F2B0075B0A1 /* Fate.swift */,
+				EF76694E252F4F180075B0A1 /* MagicPotion.swift */,
+				EF76694C252F4EFC0075B0A1 /* FlameThrower.swift */,
+				EF766948252F4EA60075B0A1 /* MagicWand.swift */,
+				EF76694A252F4EBD0075B0A1 /* Sword.swift */,
 			);
 			path = "P3-game";
 			sourceTree = "<group>";
@@ -132,10 +162,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFF15F1024EAE64C00F10582 /* Sorcier.swift in Sources */,
+				EF76694D252F4EFC0075B0A1 /* FlameThrower.swift in Sources */,
+				EF76694F252F4F180075B0A1 /* MagicPotion.swift in Sources */,
+				EF766949252F4EA60075B0A1 /* MagicWand.swift in Sources */,
+				EFF15F0824EAD60400F10582 /* Magicien.swift in Sources */,
 				EF8D004124CED48C00FF4759 /* Weapon.swift in Sources */,
+				EF766951252F4F2B0075B0A1 /* Fate.swift in Sources */,
+				EFF15F0E24EAE63D00F10582 /* Druide.swift in Sources */,
+				EF76694B252F4EBD0075B0A1 /* Sword.swift in Sources */,
 				EF8D003424CED1F100FF4759 /* main.swift in Sources */,
+				EFF15F0A24EAD7A000F10582 /* Chevalier.swift in Sources */,
 				EF8D003D24CED44A00FF4759 /* Player.swift in Sources */,
 				EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */,
+				EFF15F0C24EAE63100F10582 /* Dragon.swift in Sources */,
 				EF8D003F24CED46D00FF4759 /* Character.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

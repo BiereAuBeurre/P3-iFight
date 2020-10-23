@@ -9,15 +9,13 @@
 import Foundation
 
 class Weapon {
-    var damage: Int
+    var damages: Int
     var name: String
+    var healSkill: Int
     
-    init(damage: Int, name: String) {
-        self.damage = damage
+    init(damages: Int, name: String, healSkill: Int) {
+        self.damages = damages
         self.name = name
-    }
-    
-    func chest() {
-        // fait apparaitre une nouvelle arme aléatoire
+        self.healSkill = healSkill
     }
 }

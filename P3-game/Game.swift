@@ -12,19 +12,29 @@ import Foundation
 class Game {
     
     let maxNumberOfPlayers = 2
-    var indexCountHelper = 0
+//    var indexCountHelper = 0
     var players: [Player] = []
+    static var round = 0
+    var playerNames = [String]()
+    var attackedCharacter: Character?
     
     func makePlayer() {
         
-        print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :")
-        if let playerName = readLine()?.trimmingCharacters(in: .whitespaces), !playerName.isEmpty { // reviens à dire playerName.isEmpty == false
-            let player = Player()
-            player.name = playerName
-            players.append(player)
-            print("\nTrès bien équipe \(player.name), forme ton équipe de 3 personnages :")
+        print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
+        // "!" en début de nom de proriété reviens à dire playerName.isEmpty == false
+        if let playerName = readLine()?.trimmingCharacters(in: .whitespaces), !playerName.isEmpty {
+            if playerNames.contains(playerName) {
+                print("⛔️ Trop tard ! Ce nom d'équipe est déjà pris, merci d'en choisir un différent ⛔️")
+                makePlayer()
+            } else {
+                let player = Player()
+                player.name = playerName
+                players.append(player)
+                playerNames.append(playerName)
+                print("\nTrès bien équipe \(player.name), forme ton équipe de 3 personnages :\n")
+            }
         } else {
-            print("merci de renseigner un nom d'équipe")
+            print("⛔️ Merci de renseigner un nom d'équipe pour continuer ⛔️\n")
             makePlayer()
         }
     }
@@ -39,39 +49,32 @@ class Game {
     func startGame() {
         print("Bienvenue dans le jeu joueur \(players.count+1) !\n")
         for _ in 1...maxNumberOfPlayers {
-            //          Choix du nom de l'équipe
+            // Création de l'équipe par un choix de nom ⬇️
             makePlayer()
-            //        Création de l'équipe composée de 3 personnages
+            // Création du squad composé de 3 personnages ⬇️
             makeTeams()
+            // Lancement du combat pour le player à l'index 0 puis à lindex 1, revoir l'écriture du lancement de la fonction car ne peut pas être intégré dans la boucle ou ça fera startfight dans un mauvais ordre
+        }
+        startFight()
+    }
+    
+    
+    func startFight() {
+        //        var indexCountHelper = 0
+        let player = Player()
+        while players[0].areAllMembersSquadDead() && players[1].areAllMembersSquadDead() {
+            for player in players {
+                print("je passe dans la boucle for")
+                player.pickFighter()
+                Game.round += 1
+//                player.indexCountHelper += 1
+//                print("+1 pour indexCountHelper")
+            }
+            print("fin du tour, les 2 équipes sont passés, je remet indexCountHelper à zéro")
+            player.indexCountHelper = 0
         }
     }
     
-    func startFight() {
-        for _ in 1...maxNumberOfPlayers {
-            //          Choix du personnages qui va combattre, pour le perso 1 puis 2
-            players[indexCountHelper].pickFighter()
-            indexCountHelper += 1
-        }
-    }
 }
-
-
-// TODO: Initialisation de la variable endOfRound
-
-// Peut-être que pour endOfGame oon fait plutôt une fonction qui affiche les stats de la partie +gagnants et non une variable ?
-//func endOfGame() {
-//print("this winner's round is \(winner) !")
-//init(winner: String) {
-//self.winner = winner
-//}
-
-//Fonction pour définir winner :
-// func winner() {
-// if player1.hp > player2.hp {
-//print ("\(players1) won the game")
-//}
-// else {
-// print("\(player2) won the game")
-//}
 
 
