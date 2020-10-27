@@ -14,12 +14,9 @@ class Player {
     var squad = [Character]()
     var killedEnnemy = [Character]()
     var healingCharacter: Character?
-    let specialWeaponDamages = [80, 5, 65, 10, 70, 15]
     
     // ?? lazy var judicieux à utiliser pour aller code et ne pas avoir à init les valeurs ? je l'avais mis pour specialWeapon à un moment qui devait être init
-    
-    var specialWeapon = Int()
-    
+        
     func areAllMembersSquadDead() -> Bool {
         let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
         return totalHpSquad > 0
@@ -100,10 +97,10 @@ class Player {
         }
     }
     
-    func fight(fightingCharacter: Character) {
+    func attackEnnemyOrHealTeamMate(fightingCharacter: Character) {
         if areAllMembersSquadDead() {
             // Tant que le squad.count contient des character, continuer de lancer l'action fight, sinon afficher les stats ⬇️
-            print("\(/*game.players[indexCountHelper].*/name) Quelle action veux-tu réaliser ? \n"
+            print("\(name) Quelle action veux-tu réaliser ? \n"
                 + "\n1. Attaquer un ennemi ⚔️\n"
                 + "\n2. Soigner un coéquipier 🏥\n")
             if let choice = readLine() {
@@ -119,7 +116,7 @@ class Player {
                     healTeamMate(fightingCharacter: fightingCharacter)
                 default:
                     print ("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
-                    fight(fightingCharacter: fightingCharacter)
+                    attackEnnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
                 }
             }
         }
@@ -133,7 +130,7 @@ class Player {
             sleep(UInt32(1.0))
             for (index, character) in squad.enumerated() {
                 if character.hp > 0 {
-                    print("\(index+1). \(character.name) le \(character.characterType) ( ⚔︎ Arme : \(character.defaultWeapon.name) | ☠︎ Dégats : \(character.defaultWeapon.damages) | ❤︎ Soins : \(character.defaultWeapon.healSkill))")
+                    print("\(index+1). \(character.name) le \(character.characterType) ( ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ❤︎ Soins : \(character.weapon.healSkill))")
                 }
             }
             if let choice = readLine() {
@@ -141,21 +138,18 @@ class Player {
                 case "1" where squad[0].hp > 0 :
                     print("ok tu vas jouer avec \(squad[0].name) le \(squad[0].characterType)\n")
                     let fightingCharacter = squad[0]
-                    fightingCharacter.chestSettings(fightingCharacter: squad[0])
-                    fight(fightingCharacter: squad[0])
-                    fightingCharacter.weapon = fightingCharacter.defaultWeapon
+                    fightingCharacter.chestSettings()
+                    attackEnnemyOrHealTeamMate(fightingCharacter: squad[0])
                 case "2" where squad[1].hp > 0  :
                     print("ok tu vas jouer avec \(squad[1].name) le \(squad[1].characterType)\n")
                     let fightingCharacter = squad[1]
-                    fightingCharacter.chestSettings(fightingCharacter: squad[1])
-                    fight(fightingCharacter: squad[0])
-                    fightingCharacter.weapon = fightingCharacter.defaultWeapon
+                    fightingCharacter.chestSettings()
+                    attackEnnemyOrHealTeamMate(fightingCharacter: squad[0])
                 case "3" where squad[2].hp > 0 :
                     print("ok tu vas jouer avec \(squad[2].name) le \(squad[2].characterType)\n")
                     let fightingCharacter = squad[2]
-                    fightingCharacter.chestSettings(fightingCharacter: squad[2])
-                    fight(fightingCharacter: squad[2])
-                    fightingCharacter.weapon = fightingCharacter.defaultWeapon
+                    fightingCharacter.chestSettings()
+                    attackEnnemyOrHealTeamMate(fightingCharacter: squad[2])
                 default :
                     print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
                     pickFighter()
