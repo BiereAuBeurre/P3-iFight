@@ -12,7 +12,6 @@ class Chevalier: Character {
     init() {
         let weapon = Sword()
         let type = "Chevalier"
-//        let defaultCharacterDamages = 30
         super.init(weapon: weapon, type: type)
         description = "\n2. Le \(type), il attaque avec une \(weapon.name) qui provoque \(weapon.damages) dégats\n"
     }

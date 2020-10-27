@@ -4,19 +4,15 @@
 //
 //  Created by Manon Russo on 27/07/2020.
 //  Copyright © 2020 Manon Russo. All rights reserved.
-//
 
 import Foundation
-
 
 class Game {
     
     let maxNumberOfPlayers = 2
-    //    var indexCountHelper = 0
     var players: [Player] = []
     static var round = 0
     var playerNames = [String]()
-    var attackedCharacter: Character?
     
     func makePlayer() {
         
@@ -53,15 +49,12 @@ class Game {
             makePlayer()
             // Création du squad composé de 3 personnages ⬇️
             makeTeams()
-            // Lancement du combat pour le player à l'index 0 puis à lindex 1, revoir l'écriture du lancement de la fonction car ne peut pas être intégré dans la boucle ou ça fera startfight dans un mauvais ordre
         }
         startFight()
     }
     
     
     func startFight() {
-        //        var indexCountHelper = 0
-        //        let player = Player()
         while players[0].areAllMembersSquadDead() && players[1].areAllMembersSquadDead() {
             for player in players {
                 player.pickFighter()
@@ -70,8 +63,13 @@ class Game {
             }
             Player.indexCountHelper = 0
         }
+        // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l58 n'est plus respectée ⬇️
+        print ("\n************************************\n"
+            + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
+            + "\n                   ⚔️ \(game.players[0].name) 🆚 \(game.players[1].name) ⚔️\n\n")
+        game.players[0].showStatistic(index: 1)
+        sleep(UInt32(1.0))
+        game.players[1].showStatistic(index: 0)
     }
     
 }
-
-

@@ -16,7 +16,7 @@ class Player {
     var healingCharacter: Character?
     
     // ?? lazy var judicieux à utiliser pour aller code et ne pas avoir à init les valeurs ? je l'avais mis pour specialWeapon à un moment qui devait être init
-        
+    
     func areAllMembersSquadDead() -> Bool {
         let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
         return totalHpSquad > 0
@@ -24,52 +24,43 @@ class Player {
     
     func makeMySquad() {
         while squad.count < 3 {
-            let magicien = Magicien()
-            let chevalier = Chevalier()
-            let dragon = Dragon()
-            let druide = Druide()
-            let sorcier = Sorcier()
             
-            print("Choisis le  personnage numero \(squad.count+1) :\n"
-                + "\(magicien.description)"
-                + "\(chevalier.description)"
-                + "\(dragon.description)"
-                + "\(druide.description)"
-                + "\(sorcier.description)")
+            let playableCharacters = [Magicien(), Chevalier(), Dragon(), Druide(), Sorcier()]
+            
+            print("Choisis le personnages numéro \(squad.count+1): \n")
+            for (characters) in playableCharacters {
+                print("\(characters.description)")
+            }
+            
             let choice = readLine()
             switch choice {
             case "1" :
+                let magicien = Magicien()
                 if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(magicien.type)") {
-                    let magicien = Magicien()
                     magicien.name = characterName
-                    magicien.characterType = magicien.type
                     squad.append(magicien)
                 }
             case "2" :
+                let chevalier = Chevalier()
                 if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(chevalier.type)") {
-                    let chevalier = Chevalier()
                     chevalier.name = characterName
-                    chevalier.characterType = chevalier.type
                     squad.append(chevalier)
                 }
             case "3" :
+                let dragon = Dragon()
                 if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(dragon.type)") {
-                    let dragon = Dragon()
                     dragon.name = characterName
-                    dragon.characterType = dragon.type
                     squad.append(dragon)
                 }
             case "4" :
+                let druide = Druide()
                 if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(druide.type)") {
-                    let druide = Druide()
                     druide.name = characterName
-                    druide.characterType = druide.type
                     squad.append(druide)
                 }
             case "5" :
+                let sorcier = Sorcier()
                 if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(sorcier.type)") {
-                    let sorcier = Sorcier()
-                    sorcier.characterType = sorcier.type
                     sorcier.name = characterName
                     squad.append(sorcier)
                 }
@@ -122,6 +113,7 @@ class Player {
         }
     }
     
+    
     func pickFighter() {
         let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
         if totalHpSquad > 0 {
@@ -130,47 +122,37 @@ class Player {
             sleep(UInt32(1.0))
             for (index, character) in squad.enumerated() {
                 if character.hp > 0 {
-                    print("\(index+1). \(character.name) le \(character.characterType) ( ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ❤︎ Soins : \(character.weapon.healSkill))")
+                    print("\(index+1). \(character.name) le \(character.type) ( ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ❤︎ Soins : \(character.weapon.healSkill))")
                 }
             }
             if let choice = readLine() {
                 switch choice {
                 case "1" where squad[0].hp > 0 :
-                    print("ok tu vas jouer avec \(squad[0].name) le \(squad[0].characterType)\n")
-                    let fightingCharacter = squad[0]
-                    fightingCharacter.chestSettings()
-                    attackEnnemyOrHealTeamMate(fightingCharacter: squad[0])
+                    choosenFighter(fighterNumber: 0)
                 case "2" where squad[1].hp > 0  :
-                    print("ok tu vas jouer avec \(squad[1].name) le \(squad[1].characterType)\n")
-                    let fightingCharacter = squad[1]
-                    fightingCharacter.chestSettings()
-                    attackEnnemyOrHealTeamMate(fightingCharacter: squad[0])
+                    choosenFighter(fighterNumber: 1)
                 case "3" where squad[2].hp > 0 :
-                    print("ok tu vas jouer avec \(squad[2].name) le \(squad[2].characterType)\n")
-                    let fightingCharacter = squad[2]
-                    fightingCharacter.chestSettings()
-                    attackEnnemyOrHealTeamMate(fightingCharacter: squad[2])
+                    choosenFighter(fighterNumber: 2)
                 default :
                     print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
                     pickFighter()
                 }
             }
-        } else {
-            // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players. ⬇️
-            print ("\n************************************\n"
-                + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊")
-            // test ici
-            game.players[0].showStatistic(index: 1)
-            sleep(UInt32(1.0))
-            game.players[1].showStatistic(index: 0)
         }
+    }
+    
+    func choosenFighter(fighterNumber: Int) {
+        print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
+        let fightingCharacter = squad[fighterNumber]
+        fightingCharacter.chestSettings()
+        attackEnnemyOrHealTeamMate(fightingCharacter: squad[fighterNumber])
     }
     
     func attackEnnemy(squadToAttack: [Character], fightingCharacter: Character) {
         print("\nok \(name), quel ennemi veux tu attaquer ? ⚔️ 😈\n")
         for (index, character) in squadToAttack.enumerated() {
             if character.hp > 0 {
-                print("\(index+1). \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp))")
+                print("\(index+1). \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
             }
         }
         if let choice = readLine() {
@@ -191,7 +173,6 @@ class Player {
     func attacking(squadToAttack: [Character], squadMember: Int, fightingCharacter: Character) {
         if squad.indices.contains(squadMember) {
             let attackedCharacter = squadToAttack[squadMember]
-
             if squadToAttack[squadMember].hp <= fightingCharacter.weapon.damages {
                 removeDeadCharacter(attackedCharacter: attackedCharacter)
                 print("\nCe personnage a perdu ses derniers points de vie 😢, il est mort et donc éliminé !\n")
@@ -205,7 +186,6 @@ class Player {
     }
     
     func removeDeadCharacter( attackedCharacter: Character) {
-        // Il y avait aussi le paramètre (squadMember: Int) que j'ai retiré car pas/plus utilisé 
         attackedCharacter.hp = 0
         killedEnnemy.append(attackedCharacter)
     }
@@ -216,6 +196,7 @@ class Player {
             if squad[index].hp == squad[index].maxHp {
                 sleep(UInt32(1.0))
                 print("⛔️ Tu ne peux pas soigner ce personnage, il a déjà tous ses points de vie 🦾 Choisi une autre action à réaliser pour ce tour !\n")
+                attackEnnemyOrHealTeamMate(fightingCharacter: squad[index])
             } else if hpDiff < 10 {
                 sleep(UInt32(1.0))
                 squad[index].hp += hpDiff
@@ -234,7 +215,7 @@ class Player {
         print("Ok \(name), quel coéquipier veux-tu soigner ? 🤕 🩹\n")
         for (index, character) in squad.enumerated() {
             if squad[index].hp > 0 {
-                print("\(index+1). Soigner \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp))")
+                print("\(index+1). Soigner \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
             }
         }
         if let choice = readLine() {
@@ -257,29 +238,54 @@ class Player {
     func showStatistic(index: Int) {
         // changer deadSquadMember pour killEnnemy : si j'ai 3 killedEnnemy, j'ai gagné, si j'en ai moins, j'ai perdu
         if killedEnnemy.count == 3 {
-            print("\n🌟 \(name) tu as gagné après avoir tué \(killedEnnemy[0].name) le \(killedEnnemy[0].characterType), \(killedEnnemy[1].name) \(killedEnnemy[1].characterType) & \(killedEnnemy[2].name) le \(killedEnnemy[2].characterType)\n"
-                + "\n💪 Voici le(s) survivant(s) dans ton équipe :\n")
+            print("\n🥳 \(name) tu as gagné après avoir tué"
+                + "\n🌟 Nom : \(killedEnnemy[0].name)"
+                + "\n🆔 Type : \(killedEnnemy[0].type)\n"
+                + "\n🌟 Nom : \(killedEnnemy[1].name)"
+                + "\n🆔 Type :\(killedEnnemy[1].type)\n"
+                + "\n 🌟 Nom :  \(killedEnnemy[2].name)"
+                + "\n🆔 Type : \(killedEnnemy[2].type)\n")
+            sleep(UInt32(1.0))
+            print("\n💪 Voici le(s) survivant(s) dans ton équipe :")
             if squad[0].hp > 0 {
-                print("\n▶️ \(squad[0].name) le \(squad[0].characterType) a \(squad[0].hp)/100 hp\n")
+                print("\n🌟 Nom : \(squad[0].name)"
+                + "\n🆔 Type : \(squad[0].type)"
+                + "\n❤️ Points de vie : \(squad[0].hp)/100 hp\n")
             }
             if squad[1].hp > 0 {
-                print("\n▶️ \(squad[1].name) le \(squad[1].characterType) a \(squad[1].hp)/100 hp\n")
+                print("\n🌟 Nom : \(squad[1].name)\n"
+                    + "\n🆔 Type : \(squad[1].type)"
+                    + "\n❤️ Points de vie : \(squad[1].hp)/100 hp\n")
             }
             if squad[2].hp > 0 {
-                print("\n▶️ \(squad[2].name) le \(squad[2].characterType) a \(squad[2].hp)/100 hp\n")
-            }
+                print("\n🌟 Nom : \(squad[2].name)\n"
+                    + "\n🆔 Type : \(squad[2].type)"
+                    + "\n❤️ Points de vie : \(squad[2].hp)/100 hp\n")            }
         } else {
             print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n"
-                + "\n▶️ \(squad[0].name) le \(squad[0].characterType) a \(squad[0].hp)/100 hp\n"
-                + "\n▶️ \(squad[1].name) le \(squad[1].characterType) a \(squad[1].hp)/100 hp\n"
-                + "\n▶️ \(squad[2].name) le \(squad[2].characterType) a \(squad[2].hp)/100 hp\n")
+                + "\n🌟 Nom : \(squad[0].name)"
+                + "\n🆔 Type : \(squad[0].type)"
+                + "\n🌟 Nom : \(squad[1].name)"
+                + "\n🆔 Type : \(squad[1].type)"
+                + "\n🌟 Nom : \(squad[2].name)"
+                + "\n🆔 Type : \(squad[2].type)")
             if killedEnnemy.count == 1 {
-                print("Tu as sauvé l'honneur face à \(game.players[index].name) en éliminant \(killedEnnemy[0].name) le \(killedEnnemy[0].characterType) 🤷‍♂️")
+                sleep(UInt32(1.0))
+                print("Tu as sauvé l'honneur face à \(game.players[index].name) en éliminant\n"
+                    + "\n🌟 Nom : \(killedEnnemy[0].name)"
+                    + "\n🆔 Type : \(killedEnnemy[0].type)\n")
             }
             if killedEnnemy.count == 0 {
+                sleep(UInt32(1.0))
                 print("Tu ne t'es pas très bien défendu, tu n'as éliminé aucun de tes adversaires... 😐")
             } else if killedEnnemy.count == 2 {
-                print("Dommage ! Tu es passé à ça 🤏 de la victoire en éliminant \(killedEnnemy[0].name) \(killedEnnemy[0].characterType) et \(killedEnnemy[1].name) le \(killedEnnemy[0].characterType)")
+                sleep(UInt32(1.0))
+                print("Dommage ! Tu es passé à ça 🤏 de la victoire en éliminant\n"
+                    + "\n🌟 Nom : \(killedEnnemy[0].name)"
+                    + "\n🆔 Type : \(killedEnnemy[0].type)"
+                    + "\n＆\n"
+                    + "\n🌟 Nom : \(killedEnnemy[1].name)"
+                    + "\n🆔 Type : \(killedEnnemy[0].type)")
             }
         }
     }
