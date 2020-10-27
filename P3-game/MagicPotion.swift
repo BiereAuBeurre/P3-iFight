@@ -10,6 +10,6 @@ import Foundation
 
 class MagicPotion: Weapon {
     init() {
-        super.init(damages: 50, name: "Potion magique 🍵", healSkill: 20)
+        super.init(damages: 50, name: "Potion magique 🍵")
     }
 }

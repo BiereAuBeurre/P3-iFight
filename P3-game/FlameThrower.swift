@@ -10,6 +10,6 @@ import Foundation
 
 class FlameThrower: Weapon {
     init() {
-        super.init(damages: 60, name: "Lance-flammes 🔥", healSkill: 10)
+        super.init(damages: 60, name: "Lance-flammes 🔥")
     }
 }

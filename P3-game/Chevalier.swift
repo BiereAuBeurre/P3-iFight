@@ -12,8 +12,9 @@ class Chevalier: Character {
     init() {
         let weapon = Sword()
         let type = "Chevalier"
-        super.init(weapon: weapon, type: type)
-        description = "\n2. Le \(type), il attaque avec une \(weapon.name) qui provoque \(weapon.damages) dégats\n"
+        let healSkill = 25
+        super.init(weapon: weapon, type: type, healSkill: healSkill)
+        description = "\n2. \(type) |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)             | 🏥 Soins : + \(healSkill)hp"
     }
 }
 

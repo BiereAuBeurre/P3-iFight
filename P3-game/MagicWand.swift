@@ -10,6 +10,6 @@ import Foundation
 
 class MagicWand: Weapon {
     init() {
-        super.init(damages: 50, name: "Baguette magique 🧚‍♀️", healSkill: 15)
+        super.init(damages: 50, name: "Baguette magique 🧚‍♀️")
     }
 }

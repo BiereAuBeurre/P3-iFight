@@ -10,6 +10,6 @@ import Foundation
 
 class Fate: Weapon {
     init() {
-        super.init(damages: 40, name: "Sort 🧙‍♂️", healSkill: 15)
+        super.init(damages: 40, name: "Sort 🧙‍♂️")
     }
 }

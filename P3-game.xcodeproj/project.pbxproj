@@ -95,11 +95,11 @@
 				EFF15F0D24EAE63D00F10582 /* Druide.swift */,
 				EFF15F0F24EAE64C00F10582 /* Sorcier.swift */,
 				EF8D004024CED48C00FF4759 /* Weapon.swift */,
-				EF766950252F4F2B0075B0A1 /* Fate.swift */,
-				EF76694E252F4F180075B0A1 /* MagicPotion.swift */,
-				EF76694C252F4EFC0075B0A1 /* FlameThrower.swift */,
 				EF766948252F4EA60075B0A1 /* MagicWand.swift */,
 				EF76694A252F4EBD0075B0A1 /* Sword.swift */,
+				EF76694C252F4EFC0075B0A1 /* FlameThrower.swift */,
+				EF766950252F4F2B0075B0A1 /* Fate.swift */,
+				EF76694E252F4F180075B0A1 /* MagicPotion.swift */,
 			);
 			path = "P3-game";
 			sourceTree = "<group>";

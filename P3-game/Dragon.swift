@@ -12,7 +12,8 @@ class Dragon: Character {
     init() {
         let weapon = FlameThrower()
         let type = "Dragon"
-        super.init(weapon: weapon, type: type)
-        description = "\n3. Le \(type), il attaque avec une \(weapon.name) qui provoque \(weapon.damages) dégats\n"
+        let healSkill = 10
+        super.init(weapon: weapon, type: type, healSkill: healSkill)
+        description = "\n3. \(type)    |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)    | 🏥 Soins : + \(healSkill)hp"
     }
 }

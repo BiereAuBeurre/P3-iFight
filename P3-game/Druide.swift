@@ -12,7 +12,8 @@ class Druide: Character {
     init() {
         let weapon = Fate()
         let type = "Druide"
-        super.init(weapon: weapon, type: type)
-        description = "\n4. Le \(type), il attaque avec une \(weapon.name) qui provoque \(weapon.damages) dégats\n"
+        let healSkill = 15
+        super.init(weapon: weapon, type: type, healSkill: healSkill)
+        description = "\n4.  \(type)   |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)             | 🏥 Soins : + \(healSkill)hp"
     }
 }
