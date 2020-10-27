@@ -12,7 +12,7 @@ import Foundation
 class Game {
     
     let maxNumberOfPlayers = 2
-//    var indexCountHelper = 0
+    //    var indexCountHelper = 0
     var players: [Player] = []
     static var round = 0
     var playerNames = [String]()
@@ -61,17 +61,14 @@ class Game {
     
     func startFight() {
         //        var indexCountHelper = 0
-        let player = Player()
+        //        let player = Player()
         while players[0].areAllMembersSquadDead() && players[1].areAllMembersSquadDead() {
             for player in players {
-                print("je passe dans la boucle for")
                 player.pickFighter()
                 Game.round += 1
-//                player.indexCountHelper += 1
-//                print("+1 pour indexCountHelper")
+                Player.indexCountHelper += 1
             }
-            print("fin du tour, les 2 équipes sont passés, je remet indexCountHelper à zéro")
-            player.indexCountHelper = 0
+            Player.indexCountHelper = 0
         }
     }
     

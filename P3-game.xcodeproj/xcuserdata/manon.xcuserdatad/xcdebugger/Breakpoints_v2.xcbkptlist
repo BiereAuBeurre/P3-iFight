@@ -7,64 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A21B4750-ED1C-4EF6-85BC-60B8819D99B5"
+            uuid = "F94B4AD1-7717-4FA9-BD68-C84EB1B8243C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "P3-game/Player.swift"
+            filePath = "P3-game/Character.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "fight(fightingCharacter:)"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "chestChoice(fightingCharacter:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5DDCF439-46A6-45D1-B547-17AA9133D3DD"
+            uuid = "5596262A-49B7-49E4-86AB-21E6DFA6DCF4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "P3-game/Player.swift"
+            filePath = "P3-game/Character.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "pickFighter()"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "chestChoice(fightingCharacter:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6AB044D3-BDC2-4964-8A92-F04A5A29240C"
+            uuid = "0AA535D7-E3EE-44A7-AF56-0FD49838D094"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "P3-game/Player.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
-            landmarkName = "pickFighter()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "33330B03-7FC4-44D5-9957-3AED07D3D180"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P3-game/Player.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
-            landmarkName = "pickFighter()"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "attacking(squadToAttack:squadMember:fightingCharacter:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

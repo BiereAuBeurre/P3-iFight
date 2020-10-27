@@ -11,9 +11,10 @@ import Foundation
 class Dragon: Character {
     init() {
         let weapon = FlameThrower()
+        let defaultWeapon = FlameThrower()
         let type = "Dragon"
-        let defaultCharacterDamages = 60
-        super.init(weapon: weapon, type: type, defaultCharacterDamages: defaultCharacterDamages)
+//        let defaultCharacterDamages = 60
+        super.init(weapon: weapon, type: type, defaultWeapon: defaultWeapon, specialWeapon: weapon)
         description = "\n3. Le \(type), il attaque avec une \(weapon.name) qui provoque \(weapon.damages) dégats\n"
     }
 }

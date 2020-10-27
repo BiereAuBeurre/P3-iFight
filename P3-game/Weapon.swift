@@ -12,7 +12,7 @@ class Weapon {
     var damages: Int
     var name: String
     var healSkill: Int
-    
+
     init(damages: Int, name: String, healSkill: Int) {
         self.damages = damages
         self.name = name

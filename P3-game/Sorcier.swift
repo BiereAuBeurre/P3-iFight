@@ -11,9 +11,10 @@ import Foundation
 class Sorcier: Character {
     init() {
         let weapon = MagicPotion()
+        let defaultWeapon = MagicPotion()
         let type = "Sorcier"
-        let defaultCharacterDamages = 50
-        super.init(weapon: weapon, type: type, defaultCharacterDamages: defaultCharacterDamages)
+//        let defaultCharacterDamages = 50
+        super.init(weapon: weapon, type: type, defaultWeapon: defaultWeapon, specialWeapon: weapon)
         description = "\n5. Le \(type), il attaque avec une \(weapon.name) qui provoque \(weapon.damages) dégats\n"
     }
 }

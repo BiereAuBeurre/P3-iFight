@@ -9,12 +9,11 @@ import Foundation
 
 class Player {
     
-    var indexCountHelper = 0
+    static var indexCountHelper = 0
     var name = String()
     var squad = [Character]()
     var killedEnnemy = [Character]()
     var healingCharacter: Character?
-    var attackedCharacter: Character?
     let specialWeaponDamages = [80, 5, 65, 10, 70, 15]
     
     // ?? lazy var judicieux à utiliser pour aller code et ne pas avoir à init les valeurs ? je l'avais mis pour specialWeapon à un moment qui devait être init
@@ -83,7 +82,6 @@ class Player {
         }
     }
     
-    //    a mettre dans la class Character avec makeMySquad() dans ce cas ? Car characterName est utilisé dedans ?
     func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
         print ("\nComment veux tu l'appeler ?\n")
         // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
@@ -103,7 +101,7 @@ class Player {
     }
     
     func fight(fightingCharacter: Character) {
-        if areAllMembersSquadDead() == true {
+        if areAllMembersSquadDead() {
             // Tant que le squad.count contient des character, continuer de lancer l'action fight, sinon afficher les stats ⬇️
             print("\(/*game.players[indexCountHelper].*/name) Quelle action veux-tu réaliser ? \n"
                 + "\n1. Attaquer un ennemi ⚔️\n"
@@ -112,12 +110,10 @@ class Player {
                 switch choice {
                 case "1":
                     // Si l'index est sur le player[0], attack ennemy à l'index 1, else fait l'inverse (si indexCountHelper != 0) ⬇️
-                    if indexCountHelper == 0 {
+                    if Player.indexCountHelper == 0 {
                         attackEnnemy(squadToAttack: game.players[1].squad, fightingCharacter: fightingCharacter)
-//                        indexCountHelper = 1
                     } else {
                         attackEnnemy(squadToAttack: game.players[0].squad, fightingCharacter: fightingCharacter)
-//                        indexCountHelper = 1
                     }
                 case "2":
                     healTeamMate(fightingCharacter: fightingCharacter)
@@ -126,13 +122,6 @@ class Player {
                     fight(fightingCharacter: fightingCharacter)
                 }
             }
-                
-        } else {
-            // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players. ⬇️
-            print ("\n************************************\n"
-                + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊")
-            showStatistic(index: 1)
-            showStatistic(index: 0)
         }
     }
     
@@ -144,7 +133,7 @@ class Player {
             sleep(UInt32(1.0))
             for (index, character) in squad.enumerated() {
                 if character.hp > 0 {
-                    print("\(index+1). \(character.name) le \(character.characterType) ( ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.defaultCharacterDamages) | ❤︎ Soins : \(character.weapon.healSkill))")
+                    print("\(index+1). \(character.name) le \(character.characterType) ( ⚔︎ Arme : \(character.defaultWeapon.name) | ☠︎ Dégats : \(character.defaultWeapon.damages) | ❤︎ Soins : \(character.defaultWeapon.healSkill))")
                 }
             }
             if let choice = readLine() {
@@ -154,24 +143,32 @@ class Player {
                     let fightingCharacter = squad[0]
                     fightingCharacter.chestSettings(fightingCharacter: squad[0])
                     fight(fightingCharacter: squad[0])
-                    indexCountHelper = 1
+                    fightingCharacter.weapon = fightingCharacter.defaultWeapon
                 case "2" where squad[1].hp > 0  :
                     print("ok tu vas jouer avec \(squad[1].name) le \(squad[1].characterType)\n")
                     let fightingCharacter = squad[1]
                     fightingCharacter.chestSettings(fightingCharacter: squad[1])
                     fight(fightingCharacter: squad[0])
-                    indexCountHelper = 1
+                    fightingCharacter.weapon = fightingCharacter.defaultWeapon
                 case "3" where squad[2].hp > 0 :
                     print("ok tu vas jouer avec \(squad[2].name) le \(squad[2].characterType)\n")
                     let fightingCharacter = squad[2]
                     fightingCharacter.chestSettings(fightingCharacter: squad[2])
                     fight(fightingCharacter: squad[2])
-                    indexCountHelper = 1
-                default:
+                    fightingCharacter.weapon = fightingCharacter.defaultWeapon
+                default :
                     print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
                     pickFighter()
                 }
             }
+        } else {
+            // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players. ⬇️
+            print ("\n************************************\n"
+                + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊")
+            // test ici
+            game.players[0].showStatistic(index: 1)
+            sleep(UInt32(1.0))
+            game.players[1].showStatistic(index: 0)
         }
     }
     
@@ -199,28 +196,25 @@ class Player {
     
     func attacking(squadToAttack: [Character], squadMember: Int, fightingCharacter: Character) {
         if squad.indices.contains(squadMember) {
-      // Trouver une façon de réintégré ici le indexCountHelper pour cibler le bon squadToAttack
-            
-            // FIXME: trouver comment déballer de façon sécuriser, ou pas car certains que ça contiendra une valeur ? ⬇️
+            let attackedCharacter = squadToAttack[squadMember]
+
             if squadToAttack[squadMember].hp <= fightingCharacter.weapon.damages {
-                attackedCharacter = squadToAttack[squadMember]
-                removeDeadCharacter(squadMember: squadMember)
+                removeDeadCharacter(attackedCharacter: attackedCharacter)
                 print("\nCe personnage a perdu ses derniers points de vie 😢, il est mort et donc éliminé !\n")
                 sleep(UInt32(2.0))
             } else {
-                squadToAttack[squadMember].hp -= fightingCharacter.weapon.damages
-                print("🤜💥 \(squadToAttack[squadMember].name) vient de perdre \(fightingCharacter.weapon.damages) hp, il lui reste \(squadToAttack[squadMember].hp)/ \(squadToAttack[squadMember].maxHp) 💔\n")
+                attackedCharacter.hp -= fightingCharacter.weapon.damages
+                print("🤜💥 \(attackedCharacter.name) vient de perdre \(fightingCharacter.weapon.damages) hp, il lui reste \(attackedCharacter.hp)/ \(attackedCharacter.maxHp) 💔\n")
                 sleep(UInt32(2.0))
-                //            }
             }
         }
     }
     
-    func removeDeadCharacter(squadMember: Int) {
-        attackedCharacter?.hp = 0
-        killedEnnemy.append(attackedCharacter!)
+    func removeDeadCharacter( attackedCharacter: Character) {
+        // Il y avait aussi le paramètre (squadMember: Int) que j'ai retiré car pas/plus utilisé 
+        attackedCharacter.hp = 0
+        killedEnnemy.append(attackedCharacter)
     }
-    
     
     func healing (index: Int) {
         let hpDiff = squad[index].maxHp - squad[index].hp
@@ -228,15 +222,16 @@ class Player {
             if squad[index].hp == squad[index].maxHp {
                 sleep(UInt32(1.0))
                 print("⛔️ Tu ne peux pas soigner ce personnage, il a déjà tous ses points de vie 🦾 Choisi une autre action à réaliser pour ce tour !\n")
-                //                game.fight()
             } else if hpDiff < 10 {
                 sleep(UInt32(1.0))
                 squad[index].hp += hpDiff
                 print("\(squad[index].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
             } else {
-                sleep(UInt32(1.0))
-                squad[index].hp += healingCharacter!.weapon.healSkill
-                print("\(squad[index].name) récupère \(healingCharacter!.weapon.healSkill) points de vie, il a maintenant \(squad[index].hp)/\(squad[index].maxHp) 🦸🏿‍♂️\n")
+                if let healingCharacter = healingCharacter {
+                    sleep(UInt32(1.0))
+                    squad[index].hp += healingCharacter.weapon.healSkill
+                    print("\(squad[index].name) récupère \(healingCharacter.weapon.healSkill) points de vie, il a maintenant \(squad[index].hp)/\(squad[index].maxHp) 🦸🏿‍♂️\n")
+                }
             }
         }
     }
@@ -266,30 +261,31 @@ class Player {
     }
     
     func showStatistic(index: Int) {
-        
         // changer deadSquadMember pour killEnnemy : si j'ai 3 killedEnnemy, j'ai gagné, si j'en ai moins, j'ai perdu
-        
         if killedEnnemy.count == 3 {
-            print("\n🌟 \(name) tu as gagné après avoir tué \(killedEnnemy[0].name), \(killedEnnemy[1].name) & \(killedEnnemy[2].name)\n"
+            print("\n🌟 \(name) tu as gagné après avoir tué \(killedEnnemy[0].name) le \(killedEnnemy[0].characterType), \(killedEnnemy[1].name) \(killedEnnemy[1].characterType) & \(killedEnnemy[2].name) le \(killedEnnemy[2].characterType)\n"
                 + "\n💪 Voici le(s) survivant(s) dans ton équipe :\n")
             if squad[0].hp > 0 {
-                print("\n▶️ \(squad[0].name) a \(squad[0].hp)/100 hp\n")
+                print("\n▶️ \(squad[0].name) le \(squad[0].characterType) a \(squad[0].hp)/100 hp\n")
             }
             if squad[1].hp > 0 {
-                print("\n▶️ \(squad[1].name) a \(squad[1].hp)/100 hp\n")
+                print("\n▶️ \(squad[1].name) le \(squad[1].characterType) a \(squad[1].hp)/100 hp\n")
             }
             if squad[2].hp > 0 {
-                print("\n▶️ \(squad[2].name) a \(squad[2].hp)/100 hp\n")
+                print("\n▶️ \(squad[2].name) le \(squad[2].characterType) a \(squad[2].hp)/100 hp\n")
             }
         } else {
             print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n"
-                + "\n▶️ \(squad[0].name) a \(squad[0].hp) / 100 hp\n"
-                + "\n▶️ \(squad[1].name) a \(squad[1].hp)/100 hp\n"
-                + "\n▶️ \(squad[2].name) a \(squad[2].hp)/100 hp\n")
+                + "\n▶️ \(squad[0].name) le \(squad[0].characterType) a \(squad[0].hp)/100 hp\n"
+                + "\n▶️ \(squad[1].name) le \(squad[1].characterType) a \(squad[1].hp)/100 hp\n"
+                + "\n▶️ \(squad[2].name) le \(squad[2].characterType) a \(squad[2].hp)/100 hp\n")
             if killedEnnemy.count == 1 {
-                print("Tu as sauvé l'honneur face à \(game.players[index].name) en éliminant \(killedEnnemy[0].name) 🤷‍♂️")
+                print("Tu as sauvé l'honneur face à \(game.players[index].name) en éliminant \(killedEnnemy[0].name) le \(killedEnnemy[0].characterType) 🤷‍♂️")
+            }
+            if killedEnnemy.count == 0 {
+                print("Tu ne t'es pas très bien défendu, tu n'as éliminé aucun de tes adversaires... 😐")
             } else if killedEnnemy.count == 2 {
-                print("Dommage tu es passé à ça 🤏 de la victoire en éliminant \(killedEnnemy[0].name) et \(killedEnnemy[1].name)")
+                print("Dommage ! Tu es passé à ça 🤏 de la victoire en éliminant \(killedEnnemy[0].name) \(killedEnnemy[0].characterType) et \(killedEnnemy[1].name) le \(killedEnnemy[0].characterType)")
             }
         }
     }
