@@ -25,7 +25,7 @@ class Character {
         self.healSkill = healSkill
     }
     
-    func chestSettings() {
+    func openChest() {
         let number = Int.random(in: 0...10)
         if number <= 3 {
             let arrow = Weapon(damages: 80, name: "Arc")

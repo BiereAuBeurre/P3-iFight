@@ -15,9 +15,7 @@ class Game {
     var playerNames = [String]()
     
     func makePlayer() {
-        
         print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
-        // "!" en début de nom de proriété reviens à dire playerName.isEmpty == false
         if let playerName = readLine()?.trimmingCharacters(in: .whitespaces), !playerName.isEmpty {
             if playerNames.contains(playerName) {
                 print("⛔️ Trop tard ! Ce nom d'équipe est déjà pris, merci d'en choisir un différent ⛔️")
@@ -53,7 +51,6 @@ class Game {
         startFight()
     }
     
-    
     func startFight() {
         while players[0].areAllMembersSquadDead() && players[1].areAllMembersSquadDead() {
             for player in players {
@@ -63,7 +60,11 @@ class Game {
             }
             Player.indexCountHelper = 0
         }
-        // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l58 n'est plus respectée ⬇️
+        endOfGame()
+    }
+    
+    func endOfGame () {
+        // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
         print ("\n************************************\n"
             + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
             + "\n                   ⚔️ \(game.players[0].name) 🆚 \(game.players[1].name) ⚔️\n\n")
@@ -72,4 +73,5 @@ class Game {
         game.players[1].showStatistic(index: 0)
     }
     
+
 }
