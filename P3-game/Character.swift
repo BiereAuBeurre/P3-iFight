@@ -25,9 +25,9 @@ class Character {
         self.healSkill = healSkill
     }
     
-    func openChest() {
+    func mayOpenChest() {
         let number = Int.random(in: 0...10)
-        if number <= 3 {
+        if number <= 1 {
             let arrow = Weapon(damages: 80, name: "Arc")
             let branch = Weapon(damages: 5, name: "Branche")
             let spear = Weapon(damages: 65, name: "Lance")

@@ -14,7 +14,7 @@ class Player {
     var squad = [Character]()
     var killedEnnemy = [Character]()
     
-    func areAllMembersSquadDead() -> Bool {
+    func isAllSquadAlive() -> Bool {
         let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
         return totalHpSquad > 0
     }
@@ -82,7 +82,7 @@ class Player {
     }
     
     func attackEnnemyOrHealTeamMate(fightingCharacter: Character) {
-        if areAllMembersSquadDead() {
+        if isAllSquadAlive() {
             // Tant que le squad.count contient des character, continuer de lancer l'action fight, sinon afficher les stats ⬇️
             print("\(name) Quelle action veux-tu réaliser ? \n"
                 + "\n1. Attaquer un ennemi ⚔️\n"
@@ -136,7 +136,7 @@ class Player {
     func choosenFighterAction(fighterNumber: Int) {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
         let fightingCharacter = squad[fighterNumber]
-        fightingCharacter.openChest()
+        fightingCharacter.mayOpenChest()
         attackEnnemyOrHealTeamMate(fightingCharacter: squad[fighterNumber])
     }
     
@@ -209,15 +209,13 @@ class Player {
             }
         }
         if let choice = readLine() {
+            let healingCharacter = fightingCharacter
             switch choice {
             case "1" where squad[0].hp > 0 :
-                let healingCharacter = fightingCharacter
                 healing(index: 0, healingCharacter: healingCharacter)
             case "2" where squad[1].hp > 0 :
-                let healingCharacter = fightingCharacter
                 healing(index: 1, healingCharacter: healingCharacter)
             case "3" where squad[2].hp > 0 :
-                let healingCharacter = fightingCharacter
                 healing(index: 2, healingCharacter: healingCharacter)
             default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
             whoToHeal(fightingCharacter: fightingCharacter)
@@ -235,40 +233,28 @@ class Player {
     }
     
     func winnerStats(index: Int) {
-        print("\n🥳 \(name) tu as gagné après avoir tué toute l'équipe \(game.players[index].name)"
-            + "\n🌟 Nom : \(killedEnnemy[0].name)"
-            + "\n🆔 Type : \(killedEnnemy[0].type)\n"
-            + "\n🌟 Nom : \(killedEnnemy[1].name)"
-            + "\n🆔 Type :\(killedEnnemy[1].type)\n"
-            + "\n🌟 Nom :  \(killedEnnemy[2].name)"
-            + "\n🆔 Type : \(killedEnnemy[2].type)\n")
+        print("\n🥳 \(name) tu as gagné après avoir tué toute l'équipe \(game.players[index].name) :")
+        for (ennemy) in killedEnnemy {
+            print("\n🌟 Nom : \(ennemy.name)"
+                + "\n🆔 Type : \(ennemy.type)")
+        }
         sleep(UInt32(1.0))
         print("\n💪 Voici le(s) survivant(s) dans ton équipe :")
-        if squad[0].hp > 0 {
-            print("\n🌟 Nom : \(squad[0].name)"
-                + "\n🆔 Type : \(squad[0].type)"
-                + "\n❤️ Points de vie : \(squad[0].hp)/100\n")
-        }
-        if squad[1].hp > 0 {
-            print("\n🌟 Nom : \(squad[1].name)\n"
-                + "\n🆔 Type : \(squad[1].type)"
-                + "\n❤️ Points de vie : \(squad[1].hp)/100\n")
-        }
-        if squad[2].hp > 0 {
-            print("\n🌟 Nom : \(squad[2].name)\n"
-                + "\n🆔 Type : \(squad[2].type)"
-                + "\n❤️ Points de vie : \(squad[2].hp)/100\n")
+        for (character) in squad {
+            if character.hp > 0 {
+                print("\n🌟 Nom : \(character.name)"
+                    + "\n🆔 Type : \(character.type)"
+                    + "\n❤️ Points de vie : \(character.hp)/100\n")
+            }
         }
     }
     
     func looserStats(index: Int) {
-        print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n"
-            + "\n🌟 Nom : \(squad[0].name)"
-            + "\n🆔 Type : \(squad[0].type)"
-            + "\n🌟 Nom : \(squad[1].name)"
-            + "\n🆔 Type : \(squad[1].type)"
-            + "\n🌟 Nom : \(squad[2].name)"
-            + "\n🆔 Type : \(squad[2].type)")
+        print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n")
+        for (character) in squad {
+            print("\n🌟 Nom : \(character.name)"
+                + "\n🆔 Type : \(character.type)")
+        }
         if killedEnnemy.count == 1 {
             sleep(UInt32(1.0))
             print("Tu as sauvé l'honneur face à \(game.players[index].name) en éliminant ⬇️\n"
@@ -280,7 +266,7 @@ class Player {
             print("Tu ne t'es pas très bien défendu, tu n'as éliminé aucun de tes adversaires... 😐")
         } else if killedEnnemy.count == 2 {
             sleep(UInt32(1.0))
-            print("Dommage ! Tu es passé à ça 🤏 de la victoire en éliminant\n"
+            print("\nDommage ! Tu es passé à ça 🤏 de la victoire en éliminant ⬇️\n"
                 + "\n🌟 Nom : \(killedEnnemy[0].name)"
                 + "\n🆔 Type : \(killedEnnemy[0].type)"
                 + "\n\n＆\n"

@@ -52,7 +52,7 @@ class Game {
     }
     
     func startFight() {
-        while players[0].areAllMembersSquadDead() && players[1].areAllMembersSquadDead() {
+        while players[0].isAllSquadAlive() && players[1].isAllSquadAlive() {
             for player in players {
                 player.pickFighter()
                 Game.round += 1
