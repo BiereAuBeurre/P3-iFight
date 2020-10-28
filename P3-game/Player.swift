@@ -13,8 +13,7 @@ class Player {
     var name = String()
     var squad = [Character]()
     var killedEnnemy = [Character]()
-    var healingCharacter: Character?
-        
+    
     func areAllMembersSquadDead() -> Bool {
         let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
         return totalHpSquad > 0
@@ -78,7 +77,6 @@ class Player {
         } else {
             Character.names.append(characterName)
             print("Très bien ! Ton \(typeOfCharacter) se nommera \(characterName)\n")
-            // Indique que le readLine correspondra au characterName du character sélectionné, on précise donc que le champ ne peut être vide et qu'il doit être différents des autres characterName déjà présents
             return characterName
         }
     }
@@ -185,7 +183,7 @@ class Player {
         killedEnnemy.append(attackedCharacter)
     }
     
-    func healing (index: Int) {
+    func healing (index: Int, healingCharacter: Character) {
         let hpDiff = squad[index].maxHp - squad[index].hp
         if squad[index].hp > 0 {
             if squad[index].hp == squad[index].maxHp {
@@ -197,11 +195,9 @@ class Player {
                 squad[index].hp += hpDiff
                 print("\(squad[index].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
             } else {
-                if let healingCharacter = healingCharacter {
-                    sleep(UInt32(1.0))
-                    squad[index].hp += healingCharacter.healSkill
-                    print("\(squad[index].name) récupère \(healingCharacter.healSkill) points de vie, il a maintenant \(squad[index].hp)/\(squad[index].maxHp) 🦸🏿‍♂️\n")
-                }
+                sleep(UInt32(1.0))
+                squad[index].hp += healingCharacter.healSkill
+                print("\(squad[index].name) récupère \(healingCharacter.healSkill) points de vie, il a maintenant \(squad[index].hp)/\(squad[index].maxHp) 🦸🏿‍♂️\n")
             }
         }
     }
@@ -216,14 +212,14 @@ class Player {
         if let choice = readLine() {
             switch choice {
             case "1" where squad[0].hp > 0 :
-                healingCharacter = fightingCharacter
-                healing(index: 0)
+                let healingCharacter = fightingCharacter
+                healing(index: 0, healingCharacter: healingCharacter)
             case "2" where squad[1].hp > 0 :
-                healingCharacter = fightingCharacter
-                healing(index: 1)
+                let healingCharacter = fightingCharacter
+                healing(index: 1, healingCharacter: healingCharacter)
             case "3" where squad[2].hp > 0 :
-                healingCharacter = fightingCharacter
-                healing(index: 2)
+                let healingCharacter = fightingCharacter
+                healing(index: 2, healingCharacter: healingCharacter)
             default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
             healTeamMate(fightingCharacter: fightingCharacter)
             }
@@ -231,7 +227,7 @@ class Player {
     }
     
     func showStatistic(index: Int) {
-        // changer deadSquadMember pour killEnnemy : si j'ai 3 killedEnnemy, j'ai gagné, si j'en ai moins, j'ai perdu
+        //Si j'ai 3 killedEnnemy, j'ai gagné, si j'en ai moins, j'ai perdu
         if killedEnnemy.count == 3 {
             print("\n🥳 \(name) tu as gagné après avoir tué"
                 + "\n🌟 Nom : \(killedEnnemy[0].name)"
@@ -244,8 +240,8 @@ class Player {
             print("\n💪 Voici le(s) survivant(s) dans ton équipe :")
             if squad[0].hp > 0 {
                 print("\n🌟 Nom : \(squad[0].name)"
-                + "\n🆔 Type : \(squad[0].type)"
-                + "\n❤️ Points de vie : \(squad[0].hp)/100 hp\n")
+                    + "\n🆔 Type : \(squad[0].type)"
+                    + "\n❤️ Points de vie : \(squad[0].hp)/100 hp\n")
             }
             if squad[1].hp > 0 {
                 print("\n🌟 Nom : \(squad[1].name)\n"

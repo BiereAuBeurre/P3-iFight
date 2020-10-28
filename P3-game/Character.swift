@@ -27,7 +27,7 @@ class Character {
     
     func chestSettings() {
         let number = Int.random(in: 0...10)
-        if number <= 2 {
+        if number <= 3 {
             let arrow = Weapon(damages: 80, name: "Arc")
             let branch = Weapon(damages: 5, name: "Branche")
             let spear = Weapon(damages: 65, name: "Lance")
