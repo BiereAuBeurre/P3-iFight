@@ -65,7 +65,7 @@ class Game {
     
     func endOfGame () {
         // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
-        print ("\n************************************\n"
+        print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
             + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
             + "\n                   ⚔️ \(game.players[0].name) 🆚 \(game.players[1].name) ⚔️\n\n")
         game.players[0].showStatistic(index: 1)

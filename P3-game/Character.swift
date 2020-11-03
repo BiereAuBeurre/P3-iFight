@@ -10,7 +10,8 @@ import Foundation
 class Character {
     
     var hp = 100
-    var name = String()
+    //FIXME: déclarer en name: String puis rajouter dans l'init, trouver cmt l'appeler après par contre
+    var characterName = String()
     let maxHp = 100
     let minHp = 0
     static var names =  [String]()
