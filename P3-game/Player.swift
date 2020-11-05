@@ -9,10 +9,12 @@ import Foundation
 class Player {
     
     static var indexCountHelper = 0
-    //FIXME: déclarer en name: String puis rajouter dans l'init, trouver cmt l'appeler après par contre
-    var name = String()
+    var name: String
     var squad = [Character]()
     var killedEnnemy = [Character]()
+    init(name: String) {
+        self.name = name
+    }
     
     func isAllSquadAlive() -> Bool {
         let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
@@ -23,39 +25,39 @@ class Player {
         while squad.count < 3 {
             let playableCharacters = [Magicien(), Chevalier(), Dragon(), Druide(), Sorcier()]
             print("Choisis le personnages numéro \(squad.count+1): \n")
-            for (characters) in playableCharacters {
-                print("\(characters.description)")
+            for characters in playableCharacters {
+                print(characters.description)
             }
             let choice = readLine()
             switch choice {
             case "1" :
                 let magicien = Magicien()
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(magicien.type)") {
-                    //FIXME: trouver une façon de supprimer cette ligne, voir au niveau de chooseNameOfCharacter()
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: magicien.type) {
+                    //FIXME: trouver une façon de supprimer cette ligne, voir au niveau de chooseNameOfCharacter(), remplacer let magicien par let choosenCharacter?! comment appeler choosenCharacter ailleurs après?
                     magicien.characterName = characterName
                     squad.append(magicien)
                 }
             case "2" :
                 let chevalier = Chevalier()
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(chevalier.type)") {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: chevalier.type) {
                     chevalier.characterName = characterName
                     squad.append(chevalier)
                 }
             case "3" :
                 let dragon = Dragon()
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(dragon.type)") {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: dragon.type) {
                     dragon.characterName = characterName
                     squad.append(dragon)
                 }
             case "4" :
                 let druide = Druide()
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(druide.type)") {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: druide.type) {
                     druide.characterName = characterName
                     squad.append(druide)
                 }
             case "5" :
                 let sorcier = Sorcier()
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "\(sorcier.type)") {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: sorcier.type) {
                     sorcier.characterName = characterName
                     squad.append(sorcier)
                 }
@@ -69,17 +71,17 @@ class Player {
         //FIXME: ici trouver comment intégrer directement le même characterName que le name de la class Character (remplacer name par characterName) car on est dans la class Player et qu'il y a déjà une propriété name, celle correspondant au player
         print ("\nComment veux tu l'appeler ?\n")
         // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
-        guard let characterName = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !characterName.isEmpty else {
-            print("Merci de renseigner un nom pour ton personnage.")
+        guard let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty else {
+            print("Merci de renseigner un nom pour ton personnage")
             return chooseNameOfCharacter(typeOfCharacter: typeOfCharacter)
         }
-        if Character.names.contains(characterName) {
+        if Character.names.contains(userInput) {
             print("⛔️ Ce nom est déjà pris ⛔️\n")
             return chooseNameOfCharacter(typeOfCharacter: typeOfCharacter)
         } else {
-            Character.names.append(characterName)
-            print("Très bien ! Ton \(typeOfCharacter) se nommera \(characterName)\n")
-            return characterName
+            Character.names.append(userInput)
+            print("Très bien ! Ton \(typeOfCharacter) se nommera \(userInput)\n")
+            return userInput
         }
     }
     
@@ -106,7 +108,7 @@ class Player {
             case "2":
                 whoToHeal(fightingCharacter: fightingCharacter)
             default:
-                print ("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
+                print("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
                 attackEnnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
             }
         }
@@ -146,7 +148,6 @@ class Player {
         attackEnnemyOrHealTeamMate(fightingCharacter: squad[fighterNumber])
     }
     
-    
     func whoToAttack(squadToAttack: [Character], fightingCharacter: Character) {
         print("\nOk \(name), quel ennemi veux tu attaquer ? 😈\n")
         for (index, character) in squadToAttack.enumerated() {
@@ -184,12 +185,12 @@ class Player {
         }
     }
     
-    func removeDeadCharacter( attackedCharacter: Character) {
+    func removeDeadCharacter(attackedCharacter: Character) {
         attackedCharacter.hp = 0
         killedEnnemy.append(attackedCharacter)
     }
     
-    func healing (index: Int, healingCharacter: Character) {
+    func healing(index: Int, healingCharacter: Character) {
         let hpDiff = squad[index].maxHp - squad[index].hp
         if squad[index].hp > 0 {
             if squad[index].hp == squad[index].maxHp {
@@ -231,7 +232,7 @@ class Player {
     }
     
     func showStatistic(index: Int) {
-        //Si j'ai 3 killedEnnemy, j'ai gagné, si j'en ai moins, j'ai perdu
+        //Si j'ai 3 killedEnnemy, j'ai gagné, sinon j'ai perdu
         if killedEnnemy.count == 3 {
             winnerStats(index: index)
         } else {

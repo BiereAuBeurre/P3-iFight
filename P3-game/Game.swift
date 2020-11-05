@@ -21,7 +21,7 @@ class Game {
                 print("⛔️ Trop tard ! Ce nom d'équipe est déjà pris, merci d'en choisir un différent ⛔️")
                 makePlayer()
             } else {
-                let player = Player()
+                let player = Player(name: playerName)
                 player.name = playerName
                 players.append(player)
                 playerNames.append(playerName)
@@ -63,7 +63,7 @@ class Game {
         endOfGame()
     }
     
-    func endOfGame () {
+    func endOfGame() {
         // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
         print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
             + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
@@ -72,6 +72,4 @@ class Game {
         sleep(UInt32(1.0))
         game.players[1].showStatistic(index: 0)
     }
-    
-
 }

@@ -10,16 +10,16 @@ import Foundation
 class Character {
     
     var hp = 100
-    //FIXME: déclarer en name: String puis rajouter dans l'init, trouver cmt l'appeler après par contre
+    //FIXME: déclarer en name: String puis rajouter dans l'init, trouver cmt l'appeler après par contre car bloque au bout d'un moment characterName plus reconnu, doublon avec guard let ? créé nouvelle propriété du même nom ou lui assigne une valeur ?
     var characterName = String()
     let maxHp = 100
     let minHp = 0
-    static var names =  [String]()
+    static var names = [String]()
     let type: String
     var weapon: Weapon
     var description = ""
     let healSkill: Int
-
+    
     init(weapon: Weapon, type: String, healSkill: Int) {
         self.weapon = weapon
         self.type = type
@@ -45,10 +45,8 @@ class Character {
             let specialWeapon = chestWeapon.randomElement()!
             if specialWeapon.damages > 50 {
                 print("➡️ Bonne pioche ! Le coffre bonus te délivre l'arme spécial \(specialWeapon.name) qui met \(specialWeapon.damages) de dégats")
-            } else if specialWeapon.damages < 30 {
-                print("➡️ Dommage...! Le coffre bonus te délivre l'arme spécial \(specialWeapon.name) qui ne met que \(specialWeapon.damages) de dégats")
             } else {
-                print("➡️ À toi d'aviser ! Le coffre bonus te délivre l'arme spécial \(specialWeapon.name) qui met \(specialWeapon.damages) de dégats")
+                print("➡️ Dommage...! Le coffre bonus te délivre l'arme spécial \(specialWeapon.name) qui ne met que \(specialWeapon.damages) de dégats")
             }
             weapon = specialWeapon
         }

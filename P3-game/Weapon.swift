@@ -11,7 +11,6 @@ import Foundation
 class Weapon {
     var damages: Int
     var name: String
-
     init(damages: Int, name: String) {
         self.damages = damages
         self.name = name
