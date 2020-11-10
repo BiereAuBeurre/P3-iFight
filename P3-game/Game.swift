@@ -14,7 +14,7 @@ class Game {
     static var round = 0
     var playerNames = [String]()
     
-    func makePlayer() {
+    private func makePlayer() {
         print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
         if let playerName = readLine()?.trimmingCharacters(in: .whitespaces), !playerName.isEmpty {
             if playerNames.contains(playerName) {
@@ -33,14 +33,14 @@ class Game {
         }
     }
     
-    func makeTeams() {
+    private func makeTeams() {
         /* Assigner les équipes */
         for player in players {
             player.makeMySquad()
         }
     }
     
-    func startGame() {
+    public func startGame() {
         print("Bienvenue dans le jeu joueur \(players.count+1) !\n")
         for _ in 1...maxNumberOfPlayers {
             // Création de l'équipe par un choix de nom ⬇️
@@ -51,7 +51,7 @@ class Game {
         startFight()
     }
     
-    func startFight() {
+    private func startFight() {
         while players[0].isAllSquadAlive() && players[1].isAllSquadAlive() {
             for player in players {
                 player.pickFighter()
@@ -63,7 +63,7 @@ class Game {
         endOfGame()
     }
     
-    func endOfGame() {
+    private func endOfGame() {
         // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
         print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
             + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"

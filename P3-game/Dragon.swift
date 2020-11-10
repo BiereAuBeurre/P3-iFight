@@ -9,11 +9,11 @@
 import Foundation
 
 class Dragon: Character {
-    init() {
+    init(name: String) {
         let weapon = FlameThrower()
         let type = "Dragon"
         let healSkill = 10
-        super.init(weapon: weapon, type: type, healSkill: healSkill)
+        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name)
         description = "\n3. \(type)    |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)    | 🏥 Soins : + \(healSkill)hp"
     }
 }

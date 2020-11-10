@@ -11,7 +11,7 @@ class Character {
     
     var hp = 100
     //FIXME: déclarer en name: String puis rajouter dans l'init, trouver cmt l'appeler après par contre car bloque au bout d'un moment characterName plus reconnu, doublon avec guard let ? créé nouvelle propriété du même nom ou lui assigne une valeur ?
-    var characterName = String()
+    let name: String
     let maxHp = 100
     let minHp = 0
     static var names = [String]()
@@ -20,13 +20,14 @@ class Character {
     var description = ""
     let healSkill: Int
     
-    init(weapon: Weapon, type: String, healSkill: Int) {
+    init(weapon: Weapon, type: String, healSkill: Int, name: String) {
         self.weapon = weapon
         self.type = type
         self.healSkill = healSkill
+        self.name = name
     }
     
-    func mayOpenChest() {
+    public func mayOpenChest() {
         let number = Int.random(in: 0...10)
         if number <= 1 {
             let arrow = Weapon(damages: 80, name: "Arc")
@@ -50,5 +51,10 @@ class Character {
             }
             weapon = specialWeapon
         }
+    }
+    
+    public func presentation() {
+        print("\n🌟 Nom : \(name)"
+            + "\n🆔 Type : \(type)")
     }
 }
