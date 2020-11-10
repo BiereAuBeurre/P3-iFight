@@ -13,8 +13,8 @@ class Sorcier: Character {
         let weapon = MagicPotion()
         let type = "Sorcier"
         let healSkill = 20
-        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name)
-        description = "\n5.  \(type)  |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)   | 🏥 Soins : + \(healSkill)hp"
+        let description = "\n5.  \(type)  |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)   | 🏥 Soins : + \(healSkill)hp"
+        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name, description: description)
     }
 }
 

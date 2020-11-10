@@ -10,21 +10,21 @@ import Foundation
 class Character {
     
     var hp = 100
-    //FIXME: déclarer en name: String puis rajouter dans l'init, trouver cmt l'appeler après par contre car bloque au bout d'un moment characterName plus reconnu, doublon avec guard let ? créé nouvelle propriété du même nom ou lui assigne une valeur ?
     let name: String
     let maxHp = 100
     let minHp = 0
     static var names = [String]()
     let type: String
     var weapon: Weapon
-    var description = ""
+    var description: String
     let healSkill: Int
-    
-    init(weapon: Weapon, type: String, healSkill: Int, name: String) {
+    // passage de description dans l'init, n'est plus déclaré en description = ""
+    init(weapon: Weapon, type: String, healSkill: Int, name: String, description: String) {
         self.weapon = weapon
         self.type = type
         self.healSkill = healSkill
         self.name = name
+        self.description = description
     }
     
     public func mayOpenChest() {
@@ -37,12 +37,7 @@ class Character {
             let magicSword = Weapon(damages: 70, name: "Épée magique")
             let baseballBat = Weapon(damages: 15, name: "Bate de baseball")
             let chestWeapon = [arrow, branch, spear, slingShot, magicSword, baseballBat]
-            print("BONUS 🎁 :\n")
-            sleep(UInt32(1.0))
-            print("Un coffre apparaît, voyons ce qu'il contient... 🧐")
-            sleep(UInt32(1.0))
-            print("\n⌛️ Nouvelle arme en cours de chargement...⏳\n")
-            sleep(UInt32(1.0))
+            chestLoading()
             let specialWeapon = chestWeapon.randomElement()!
             if specialWeapon.damages > 50 {
                 print("➡️ Bonne pioche ! Le coffre bonus te délivre l'arme spécial \(specialWeapon.name) qui met \(specialWeapon.damages) de dégats")
@@ -53,11 +48,22 @@ class Character {
         }
     }
     
+    private func chestLoading() {
+        print("BONUS 🎁 :\n")
+        sleep(UInt32(1.0))
+        print("Un coffre apparaît, voyons ce qu'il contient... 🧐")
+        sleep(UInt32(1.0))
+        print("\n⌛️ Nouvelle arme en cours de chargement...⏳\n")
+        sleep(UInt32(1.0))
+    }
+    
     public func presentation() {
         print("\n🌟 Nom : \(name)"
                 + "\n🆔 Type : \(type)")
     }
 }
+
+// FIXME: j'ai tenté de bouger whoToAttack() ici en retirant le print name du player, mais m'oblige à ammener ici ensuite attacking() puis removeDeadCharacter qui ne reconnaissent pas squad et killedEnnemy...
 
 //    func whoToAttack(squadToAttack: [Character], fightingCharacter: Character) {
 //        print("\nOk \(name), quel ennemi veux tu attaquer ? 😈\n")

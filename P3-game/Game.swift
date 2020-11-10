@@ -51,7 +51,7 @@ class Game {
         startFight()
     }
     
-    private func startFight() {
+     func startFight() {
         while players[0].isAllSquadAlive() && players[1].isAllSquadAlive() {
             for player in players {
                 player.pickFighter()
@@ -63,7 +63,7 @@ class Game {
         endOfGame()
     }
     
-    private func endOfGame() {
+     func endOfGame() {
         // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
         print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
             + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"

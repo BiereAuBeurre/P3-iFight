@@ -13,8 +13,9 @@ class Chevalier: Character {
         let weapon = Sword()
         let type = "Chevalier"
         let healSkill = 25
-        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name)
-        description = "\n2. \(type) |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)             | 🏥 Soins : + \(healSkill)hp"
+        // MODIF DE DESCRIPTION, init au niveau de character puis défini direct ici dans un let comme pour les autres propriétés
+        let description = "\n2. \(type) |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp)             | 🏥 Soins : + \(healSkill)hp"
+        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name, description: description)
     }
 }
 

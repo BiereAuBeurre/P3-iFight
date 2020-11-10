@@ -13,8 +13,8 @@ class Magicien: Character {
         let healSkill = 15
         let weapon = MagicWand()
         let type = "Magicien"
-        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name)
-        description = "\n1. \(type)  |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp) | 🏥 Soins : + \(healSkill)hp"
+        let description = "\n1. \(type)  |  ⚔️ Arme : \(weapon.name) (-\(weapon.damages)hp) | 🏥 Soins : + \(healSkill)hp"
+        super.init(weapon: weapon, type: type, healSkill: healSkill, name: name, description: description)
     }
 }
 

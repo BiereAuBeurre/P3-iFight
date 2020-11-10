@@ -6,8 +6,6 @@
 
 import Foundation
 
-
-
 class Player {
     
     static var indexCountHelper = 0
@@ -18,15 +16,11 @@ class Player {
         self.name = name
     }
     
-    enum CharactersList {
-        case magicien
-        case chevalier
-        case dragon
-        case druide
-        case sorcier
-     }
-
-    func createCharacterInSquad(is character: CharactersList) {
+    private enum CharactersList {
+        case magicien, chevalier, dragon, druide, sorcier
+    }
+    
+    private func madeCharacterInSquad(is character: CharactersList) {
         switch character {
         case .magicien:
             if let characterName = chooseNameOfCharacter(typeOfCharacter: "Magicien") {
@@ -56,14 +50,9 @@ class Player {
         }
     }
     
-    public func isAllSquadAlive() -> Bool {
-        let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
-        return totalHpSquad > 0
-    }
-    
     public func makeMySquad() {
         while squad.count < 3 {
-            //FIXME:
+            //FIXME: trouver comment déclarer name avant chooseNameOfCharacter (définit dans les cases) dans playableCharacters
             let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
             print("Choisis le personnages numéro \(squad.count+1) : \n")
             for characters in playableCharacters {
@@ -72,22 +61,22 @@ class Player {
             let choice = readLine()
             switch choice {
             case "1":
-                createCharacterInSquad(is: .magicien)
+                madeCharacterInSquad(is: .magicien)
             case "2":
-                createCharacterInSquad(is: .chevalier)
+                madeCharacterInSquad(is: .chevalier)
             case "3":
-                createCharacterInSquad(is: .dragon)
+                madeCharacterInSquad(is: .dragon)
             case "4":
-                createCharacterInSquad(is: .druide)
+                madeCharacterInSquad(is: .druide)
             case "5":
-                createCharacterInSquad(is: .sorcier)
+                madeCharacterInSquad(is: .sorcier)
             default:
                 print("⛔️ Merci de taper un chiffre entre 1 et 5 pour chosir le personnage correspondant ⛔️")
             }
         }
     }
     
-   /* private*/ func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
+    /* private*/ func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
         //FIXME: ici trouver comment intégrer directement le même characterName que le name de la class Character (remplacer name par characterName) car on est dans la class Player et qu'il y a déjà une propriété name, celle correspondant au player
         print ("\nComment veux tu l'appeler ?\n")
         // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
@@ -105,10 +94,24 @@ class Player {
         }
     }
     
+    public func isAllSquadAlive() -> Bool {
+        let totalHpSquad = squad[0].hp + squad[1].hp + squad[2].hp
+        return totalHpSquad > 0
+    }
+    
+    // FIXME: AU NIVEAU DU CASE "1" de attackEnnemyOrHealTeamMate() ⬇️
+    // Modifier pour un filter à la place ? du genre :
+    // for player in players {
+    //      while player.isAllSquadAlive == true {
+    //  let opponent = players.filtrer { player.name != $0.name }
+    //       }
+    //  }
+    // Puis indiquer comme squadToAttack: opponent
+    
     private func attackEnnemyOrHealTeamMate(fightingCharacter: Character) {
         print("\(name) Quelle action veux-tu réaliser ? \n"
-            + "\n1. Attaquer un ennemi ⚔️\n"
-            + "\n2. Soigner un coéquipier 🏥\n")
+                + "\n1. Attaquer un ennemi ⚔️\n"
+                + "\n2. Soigner un coéquipier 🏥\n")
         if let choice = readLine() {
             switch choice {
             case "1":
@@ -118,13 +121,6 @@ class Player {
                 } else {
                     whoToAttack(squadToAttack: game.players[0].squad, fightingCharacter: fightingCharacter)
                 }
-                // FIXME: modifier pour un filter à la place ? du genre :
-                // for player in players {
-                //      while player.isAllSquadAlive == true {
-                //  let opponent = players.filtrer { player.name != $0.name }
-                //       }
-                //  }
-                // Puis indiquer comme squadToAttack: opponent
             case "2":
                 whoToHeal(fightingCharacter: fightingCharacter)
             default:
@@ -165,7 +161,8 @@ class Player {
         }
     }
     
-    //FIXME: Ajouter le filter dans choosenFighterAction() ? Puis indiquer l'opponent en valeur de squadToAttack simplement dans le case 1 de attackEnnemyOrHealTeamMate() ?! pour ensuite supprimer indexCountHelper, if et else du case 1 (et startFight() pour indexCountHelper)
+    //FIXME: Ajouter le filter dans choosenFighterAction() ? Puis indiquer l'opponent en valeur de squadToAttack simplement dans le case 1 de attackEnnemyOrHealTeamMate() ?! pour ensuite supprimer indexCountHelper, if et else du case 1 (et startFight() pour indexCountHelper) ⬇️
+    
     private func choosenFighterAction(fighterNumber: Int) {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
         let fightingCharacter = squad[fighterNumber]
@@ -251,7 +248,7 @@ class Player {
             case "3" where squad[2].hp > 0 :
                 healing(index: 2, healingCharacter: healingCharacter)
             default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
-            whoToHeal(fightingCharacter: fightingCharacter)
+                whoToHeal(fightingCharacter: fightingCharacter)
             }
         }
     }
@@ -265,7 +262,7 @@ class Player {
         }
     }
     
-    private func winnerStats(index: Int) {
+    public func winnerStats(index: Int) {
         print("\n🥳 \(name) tu as gagné après avoir tué toute l'équipe \(game.players[index].name) :")
         for ennemy in killedEnnemy {
             ennemy.presentation()
@@ -280,15 +277,15 @@ class Player {
         }
     }
     
-    private func looserStats(index: Int) {
+    public func looserStats(index: Int) {
         print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n")
         for character in squad {
             character.presentation()
         }
         if killedEnnemy.count == 1 {
             sleep(UInt32(1.0))
-            print("Tu as sauvé l'honneur face à \(game.players[index].name) en éliminant ⬇️")
-                killedEnnemy[0].presentation()
+            print("\nTu as sauvé l'honneur face à \(game.players[index].name) en éliminant ⬇️")
+            killedEnnemy[0].presentation()
         }
         if killedEnnemy.count == 0 {
             sleep(UInt32(1.0))
