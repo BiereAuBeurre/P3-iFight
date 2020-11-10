@@ -6,6 +6,8 @@
 
 import Foundation
 
+
+
 class Player {
     
     static var indexCountHelper = 0
@@ -14,6 +16,44 @@ class Player {
     var killedEnnemy = [Character]()
     init(name: String) {
         self.name = name
+    }
+    
+    enum CharactersList {
+        case magicien
+        case chevalier
+        case dragon
+        case druide
+        case sorcier
+     }
+
+    func createCharacterInSquad(is character: CharactersList) {
+        switch character {
+        case .magicien:
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Magicien") {
+                let magicien = Magicien(name: characterName)
+                squad.append(magicien)
+            }
+        case .chevalier:
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Chevalier") {
+                let chevalier = Chevalier(name: characterName)
+                squad.append(chevalier)
+            }
+        case .dragon:
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Dragon") {
+                let dragon = Dragon(name: characterName)
+                squad.append(dragon)
+            }
+        case .druide:
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Druide") {
+                let druide = Druide(name: characterName)
+                squad.append(druide)
+            }
+        case .sorcier:
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Sorcier") {
+                let sorcier = Sorcier(name: characterName)
+                squad.append(sorcier)
+            }
+        }
     }
     
     public func isAllSquadAlive() -> Bool {
@@ -31,39 +71,23 @@ class Player {
             }
             let choice = readLine()
             switch choice {
-            case "1" :
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "Magicien") {
-                    let magicien = Magicien(name: characterName)
-                    squad.append(magicien)
-                    //FIXME: trouver une façon de supprimer cette ligne, voir au niveau de chooseNameOfCharacter(), remplacer let magicien par let choosenCharacter?! comment appeler choosenCharacter ailleurs après?
-                }
-            case "2" :
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "Chevalier") {
-                    let chevalier = Chevalier(name: characterName)
-                    squad.append(chevalier)
-                }
-            case "3" :
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "Dragon") {
-                    let dragon = Dragon(name: characterName)
-                    squad.append(dragon)
-                }
-            case "4" :
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "Druide") {
-                    let druide = Druide(name: characterName)
-                    squad.append(druide)
-                }
-            case "5" :
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: "Sorcier") {
-                    let sorcier = Sorcier(name: characterName)
-                    squad.append(sorcier)
-                }
+            case "1":
+                createCharacterInSquad(is: .magicien)
+            case "2":
+                createCharacterInSquad(is: .chevalier)
+            case "3":
+                createCharacterInSquad(is: .dragon)
+            case "4":
+                createCharacterInSquad(is: .druide)
+            case "5":
+                createCharacterInSquad(is: .sorcier)
             default:
                 print("⛔️ Merci de taper un chiffre entre 1 et 5 pour chosir le personnage correspondant ⛔️")
             }
         }
     }
     
-    private func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
+   /* private*/ func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
         //FIXME: ici trouver comment intégrer directement le même characterName que le name de la class Character (remplacer name par characterName) car on est dans la class Player et qu'il y a déjà une propriété name, celle correspondant au player
         print ("\nComment veux tu l'appeler ?\n")
         // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
