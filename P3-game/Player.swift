@@ -99,7 +99,6 @@ class Player {
     }
     
     private func attackEnnemyOrHealTeamMate(fightingCharacter: Character)  {
-        
         if squad[0].hp + squad[1].hp + squad[2].hp < 300 {
             print("\(name) Quelle action veux-tu réaliser ? \n"
                     + "\n1. Attaquer un ennemi ⚔️\n"
@@ -152,8 +151,9 @@ class Player {
     
     func printAvailableFighter(squad: [Character]) {
         for (index, character) in squad.enumerated() {
-            print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
-            
+            if character.hp > 0 {
+                print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
+            }
         }
     }
     
