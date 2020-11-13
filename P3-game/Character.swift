@@ -8,17 +8,16 @@
 import Foundation
 
 class Character {
-    
-    var killedEnnemy = [Character]()
+    //  private let minHp = 0
     var hp = 100
     let name: String
     let maxHp = 100
-    private let minHp = 0
     static var names = [String]()
     let type: String
     var weapon: Weapon
     var description: String
     let healSkill: Int
+    
     init(weapon: Weapon, type: String, healSkill: Int, name: String, description: String) {
         self.weapon = weapon
         self.type = type
@@ -48,7 +47,6 @@ class Character {
         }
     }
     
-    // EST-CE UTILE ?? ⬇️
     private func chestLoading() {
         print("BONUS 🎁 :\n")
         sleep(UInt32(1.0))
@@ -63,30 +61,29 @@ class Character {
                 + "\n🆔 Type : \(type)")
     }
     
-    func healing(squadMember: Int, squadToHeal: [Character]) {
-        let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
-        if squadToHeal[squadMember].hp > 0 {
-            if hpDiff <= healSkill {
-                healToTheMax(squadMember: squadMember, squadToHeal: squadToHeal)
-            } else {
-                heal(squadMember: squadMember, squadToHeal: squadToHeal)
-
-            }
-        }
+    private func healBasic(squadMember: Int, squadToHeal: [Character]) {
+        sleep(UInt32(1.0))
+        squadToHeal[squadMember].hp += healSkill
+        print("\(squadToHeal[squadMember].name) récupère \(healSkill) points de vie, il a maintenant \(squadToHeal[squadMember].hp)/\(squadToHeal[squadMember].maxHp) 🦸🏿‍♂️\n")
     }
     
-    func healToTheMax(squadMember: Int, squadToHeal: [Character]) {
-        let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
+    private func healToTheMax(squadMember: Int, squadToHeal: [Character], hpDiff: Int) {
         if hpDiff <= healSkill {
             sleep(UInt32(1.0))
             squadToHeal[squadMember].hp += hpDiff
             print("\(squadToHeal[squadMember].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
         }
     }
-    func heal(squadMember: Int, squadToHeal: [Character]) {
-        sleep(UInt32(1.0))
-        squadToHeal[squadMember].hp += healSkill
-        print("\(squadToHeal[squadMember].name) récupère \(healSkill) points de vie, il a maintenant \(squadToHeal[squadMember].hp)/\(squadToHeal[squadMember].maxHp) 🦸🏿‍♂️\n")
+    
+    private func healing(squadMember: Int, squadToHeal: [Character]) {
+        let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
+        if squadToHeal[squadMember].hp > 0 {
+            if hpDiff <= healSkill {
+                healToTheMax(squadMember: squadMember, squadToHeal: squadToHeal, hpDiff: hpDiff)
+            } else {
+                healBasic(squadMember: squadMember, squadToHeal: squadToHeal)
+            }
+        }
     }
     
     func whoToHeal(squadToHeal: [Character]) {
@@ -125,7 +122,7 @@ class Character {
         if squadToAttack.indices.contains(squadMember) {
             let attackedCharacter = squadToAttack[squadMember]
             if squadToAttack[squadMember].hp <= weapon.damages {
-                print("\nCe personnage a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
+                print("\n\(attackedCharacter.name) a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
                 attackedCharacter.hp = 0
                 sleep(UInt32(2.0))
                 return attackedCharacter

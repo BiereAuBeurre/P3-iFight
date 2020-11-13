@@ -11,20 +11,19 @@ class Player {
     static var indexCountHelper = 0
     var name: String
     var squad = [Character]()
-    var killedEnnemy = [Character]()
-    
+    var killedEnemy = [Character]()
     init(name: String) {
         self.name = name
     }
     
-    private enum CharactersList {
+    enum CharactersList {
         case magicien, chevalier, dragon, druide, sorcier
     }
     
     private func madeCharacterInSquad(is character: CharactersList) {
         switch character {
         case .magicien:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Magicien") {
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "MAgicien") {
                 let magicien = Magicien(name: characterName)
                 squad.append(magicien)
             }
@@ -98,7 +97,7 @@ class Player {
         return squad[0].hp + squad[1].hp + squad[2].hp > 0
     }
     
-    private func attackEnnemyOrHealTeamMate(fightingCharacter: Character)  {
+    private func attackEnemyOrHealTeamMate(fightingCharacter: Character)  {
         if squad[0].hp + squad[1].hp + squad[2].hp < 300 {
             print("\(name) Quelle action veux-tu réaliser ? \n"
                     + "\n1. Attaquer un ennemi ⚔️\n"
@@ -106,21 +105,22 @@ class Player {
             if let choice = readLine() {
                 switch choice {
                 case "1":
-                    attackEnnemy(fightingCharacter: fightingCharacter)
+                    attackEnemy(fightingCharacter: fightingCharacter)
                 case "2":
                     healTeamMate(fightingCharacter: fightingCharacter)
                 default:
                     print("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
-                    attackEnnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
+                    attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
                 }
             }
         } else {
-            print("⚔️ Tu peux uniquement attaquer pour ce tour puisque tous tes personnages ont 100/100 HP 💪 !\n")
-            attackEnnemy(fightingCharacter: fightingCharacter)
+            print("\n⚔️ Tu peux uniquement attaquer pour ce tour puisque tous tes personnages ont 100/100 HP 💪 !\n")
+            sleep(UInt32(1.0))
+            attackEnemy(fightingCharacter: fightingCharacter)
         }
     }
     
-    func healTeamMate(fightingCharacter: Character) {
+    private func healTeamMate(fightingCharacter: Character) {
         print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
         for (index, character) in squad.enumerated() {
             if character.hp < 100 {
@@ -130,26 +130,26 @@ class Player {
         fightingCharacter.whoToHeal(squadToHeal: squad)
     }
     
-    func attackEnnemy(fightingCharacter: Character) {
+    private func attackEnemy(fightingCharacter: Character) {
         print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
-        // Si l'index est sur le player[0], attack ennemy à l'index 1, else fait l'inverse (si indexCountHelper != 0) ⬇️
+        // Si l'index est sur le player[0], attack enemy à l'index 1, else fait l'inverse (si indexCountHelper != 0) ⬇️
         if Player.indexCountHelper == 0 {
             let squadToAttack = game.players[1].squad
-            printAvailableFighter(squad: squadToAttack)
-            
-            if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
-                killedEnnemy.append(character)
-            }
+            attackAndKillIfSo(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
         } else if Player.indexCountHelper == 1 {
             let squadToAttack = game.players[0].squad
-            printAvailableFighter(squad: squadToAttack)
-            if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
-                killedEnnemy.append(character)
-            }
+            attackAndKillIfSo(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
         }
     }
     
-    func printAvailableFighter(squad: [Character]) {
+    private func attackAndKillIfSo(fightingCharacter: Character, squadToAttack: [Character]) {
+        printAvailableFighter(squad: squadToAttack)
+        if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
+            killedEnemy.append(character)
+        }
+    }
+    
+    private func printAvailableFighter(squad: [Character]) {
         for (index, character) in squad.enumerated() {
             if character.hp > 0 {
                 print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
@@ -183,22 +183,22 @@ class Player {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
         let fightingCharacter = squad[fighterNumber]
         fightingCharacter.mayOpenChest()
-        attackEnnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
+        attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
     }
     
     func showStatistic(index: Int) {
-        //Si j'ai 3 killedEnnemy, j'ai gagné, sinon j'ai perdu
-        if killedEnnemy.count == 3 {
+        //Si j'ai 3 killedEnemy, j'ai gagné, sinon j'ai perdu
+        if killedEnemy.count == 3 {
             winnerStats(index: index)
         } else {
             looserStats(index: index)
         }
     }
     
-    func winnerStats(index: Int) {
+    private func winnerStats(index: Int) {
         print("\n🥳 \(name) tu as gagné après avoir tué toute l'équipe \(game.players[index].name) :")
-        for ennemy in killedEnnemy {
-            ennemy.presentation()
+        for enemy in killedEnemy {
+            enemy.presentation()
         }
         sleep(UInt32(1.0))
         print("\n💪 Voici le(s) survivant(s) de ton équipe :")
@@ -210,24 +210,24 @@ class Player {
         }
     }
     
-    func looserStats(index: Int) {
+    private func looserStats(index: Int) {
         print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n")
         for character in squad {
             character.presentation()
         }
-        if killedEnnemy.count == 1 {
+        if killedEnemy.count == 1 {
             sleep(UInt32(1.0))
             print("\nTu as sauvé l'honneur face à \(game.players[index].name) en éliminant ⬇️")
-            killedEnnemy[0].presentation()
+            killedEnemy[0].presentation()
         }
-        if killedEnnemy.count == 0 {
+        if killedEnemy.count == 0 {
             sleep(UInt32(1.0))
             print("Tu ne t'es pas très bien défendu, tu n'as éliminé aucun de tes adversaires... 😐")
-        } else if killedEnnemy.count == 2 {
+        } else if killedEnemy.count == 2 {
             sleep(UInt32(1.0))
             print("\nDommage ! Tu es passé à ça 🤏 de la victoire en éliminant ⬇️\n")
-            killedEnnemy[0].presentation()
-            killedEnnemy[1].presentation()
+            killedEnemy[0].presentation()
+            killedEnemy[1].presentation()
         }
     }
 }
