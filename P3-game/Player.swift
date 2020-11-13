@@ -107,15 +107,9 @@ class Player {
             if let choice = readLine() {
                 switch choice {
                 case "1":
-                    defineSquadToAttack(fightingCharacter: fightingCharacter)
+                    attackEnnemy(fightingCharacter: fightingCharacter)
                 case "2":
-                    print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
-                    for (index, character) in squad.enumerated() {
-                        if character.hp < 100 {
-                            print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
-                        }
-                    }
-                    fightingCharacter.whoToHeal(squadToHeal: squad)
+                    healTeamMate(fightingCharacter: fightingCharacter)
                 default:
                     print("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
                     attackEnnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
@@ -123,11 +117,21 @@ class Player {
             }
         } else {
             print("⚔️ Tu peux uniquement attaquer pour ce tour puisque tous tes personnages ont 100/100 HP 💪 !\n")
-            defineSquadToAttack(fightingCharacter: fightingCharacter)
+            attackEnnemy(fightingCharacter: fightingCharacter)
         }
     }
     
-    func defineSquadToAttack(fightingCharacter: Character) {
+    func healTeamMate(fightingCharacter: Character) {
+        print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
+        for (index, character) in squad.enumerated() {
+            if character.hp < 100 {
+                print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
+            }
+        }
+        fightingCharacter.whoToHeal(squadToHeal: squad)
+    }
+    
+    func attackEnnemy(fightingCharacter: Character) {
         print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
         // Si l'index est sur le player[0], attack ennemy à l'index 1, else fait l'inverse (si indexCountHelper != 0) ⬇️
         if Player.indexCountHelper == 0 {
@@ -149,7 +153,7 @@ class Player {
     func printAvailableFighter(squad: [Character]) {
         for (index, character) in squad.enumerated() {
             print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
-
+            
         }
     }
     
