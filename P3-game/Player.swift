@@ -98,6 +98,7 @@ class Player {
     }
     
     private func attackEnemyOrHealTeamMate(fightingCharacter: Character)  {
+        // FIXME: trouver une façon de dire que les persos proposés doivent avoir + de 0 HP etmoins de 100
         if squad[0].hp + squad[1].hp + squad[2].hp < 300 {
             print("\(name) Quelle action veux-tu réaliser ? \n"
                     + "\n1. Attaquer un ennemi ⚔️\n"
@@ -106,7 +107,7 @@ class Player {
                 switch choice {
                 case "1":
                     attackEnemy(fightingCharacter: fightingCharacter)
-                case "2":
+                case "2" :
                     healTeamMate(fightingCharacter: fightingCharacter)
                 default:
                     print("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
@@ -121,13 +122,19 @@ class Player {
     }
     
     private func healTeamMate(fightingCharacter: Character) {
-        print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
         for (index, character) in squad.enumerated() {
-            if character.hp < 100 {
+            if character.hp < 100 && character.hp > 0 {
+                print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
                 print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
+                fightingCharacter.whoToHeal(squadToHeal: squad)
+            } else {
+                break
             }
         }
-        fightingCharacter.whoToHeal(squadToHeal: squad)
+        sleep(UInt32(1.0))
+        print("Personne à soigner dans ton équipe, il faut forcément que tu attaques un ennemi pour ce tour !\n")
+        sleep(UInt32(1.0))
+        attackEnemy(fightingCharacter: fightingCharacter)
     }
     
     private func attackEnemy(fightingCharacter: Character) {

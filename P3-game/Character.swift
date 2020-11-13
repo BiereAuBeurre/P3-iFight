@@ -87,18 +87,19 @@ class Character {
     }
     
     func whoToHeal(squadToHeal: [Character]) {
-        if let choice = readLine() {
-            switch choice {
-            case "1" where squadToHeal[0].hp < 100 :
-                healing(squadMember: 0, squadToHeal: squadToHeal)
-            case "2" where squadToHeal[1].hp < 100 :
-                healing(squadMember: 1, squadToHeal: squadToHeal)
-            case "3" where squadToHeal[2].hp < 100 :
-                healing(squadMember: 2, squadToHeal: squadToHeal)
-            default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
-                whoToHeal(squadToHeal: squadToHeal)
+//        if squadToHeal[squadMember].hp > 0 {}
+            if let choice = readLine() {
+                switch choice {
+                case "1" where squadToHeal[0].hp < 100 && squadToHeal[0].hp > 0 :
+                    healing(squadMember: 0, squadToHeal: squadToHeal)
+                case "2" where squadToHeal[1].hp < 100 && squadToHeal[1].hp > 0 :
+                    healing(squadMember: 1, squadToHeal: squadToHeal)
+                case "3" where squadToHeal[2].hp < 100 && squadToHeal[2].hp > 0 :
+                    healing(squadMember: 2, squadToHeal: squadToHeal)
+                default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
+                    whoToHeal(squadToHeal: squadToHeal)
+                }
             }
-        }
     }
     
     func whoToAttack(squadToAttack: [Character]) -> Character? {
@@ -136,3 +137,4 @@ class Character {
         return nil
     }
 }
+
