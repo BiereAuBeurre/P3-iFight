@@ -9,10 +9,10 @@ import Foundation
 
 class Game {
     
-    let maxNumberOfPlayers = 2
+    private let maxNumberOfPlayers = 2
     var players: [Player] = []
     static var round = 0
-    var playerNames = [String]()
+    private var playerNames = [String]()
     
     private func makePlayer() {
         print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
@@ -40,7 +40,7 @@ class Game {
         }
     }
     
-    public func startGame() {
+    func startGame() {
         print("Bienvenue dans le jeu joueur \(players.count+1) !\n")
         for _ in 1...maxNumberOfPlayers {
             // Création de l'équipe par un choix de nom ⬇️
@@ -49,9 +49,20 @@ class Game {
             makeTeams()
         }
         startFight()
+        endOfGame()
     }
     
-     func startFight() {
+    private func endOfGame() {
+        // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
+        print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
+                + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
+                + "\n                   ⚔️ \(game.players[0].name) 🆚 \(game.players[1].name) ⚔️\n\n")
+        game.players[0].showStatistic(index: 1)
+        sleep(UInt32(1.0))
+        game.players[1].showStatistic(index: 0)
+    }
+    
+    func startFight() {
         while players[0].isAllSquadAlive() && players[1].isAllSquadAlive() {
             for player in players {
                 player.pickFighter()
@@ -60,16 +71,5 @@ class Game {
             }
             Player.indexCountHelper = 0
         }
-        endOfGame()
-    }
-    
-     func endOfGame() {
-        // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
-        print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
-            + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
-            + "\n                   ⚔️ \(game.players[0].name) 🆚 \(game.players[1].name) ⚔️\n\n")
-        game.players[0].showStatistic(index: 1)
-        sleep(UInt32(1.0))
-        game.players[1].showStatistic(index: 0)
     }
 }

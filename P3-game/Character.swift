@@ -9,10 +9,11 @@ import Foundation
 
 class Character {
     
+    var killedEnnemy = [Character]()
     var hp = 100
     let name: String
     let maxHp = 100
-    let minHp = 0
+    private let minHp = 0
     static var names = [String]()
     let type: String
     var weapon: Weapon
@@ -27,7 +28,7 @@ class Character {
         self.description = description
     }
     
-    public func mayOpenChest() {
+    func mayOpenChest() {
         let number = Int.random(in: 0...10)
         if number <= 1 {
             let arrow = Weapon(damages: 80, name: "Arc")
@@ -48,6 +49,7 @@ class Character {
         }
     }
     
+    // EST-CE UTILE ?? ⬇️
     private func chestLoading() {
         print("BONUS 🎁 :\n")
         sleep(UInt32(1.0))
@@ -57,52 +59,96 @@ class Character {
         sleep(UInt32(1.0))
     }
     
-    public func presentation() {
+    func presentation() {
         print("\n🌟 Nom : \(name)"
                 + "\n🆔 Type : \(type)")
     }
+    
+    func healing(squadMember: Int, squadToHeal: [Character]) {
+        let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
+        if squadToHeal[squadMember].hp > 0 {
+            if squadToHeal[squadMember].hp == squadToHeal[squadMember].maxHp {
+                sleep(UInt32(1.0))
+                print("⛔️ Tu ne peux pas soigner ce personnage, il a déjà tous ses points de vie 🦾 Choisi une autre action à réaliser pour ce tour !\n")
+                //               attackEnnemyOrHealTeamMate(fightingCharacter: squadToHeal[squadMember])
+                whoToHeal(squadToHeal: squadToHeal)
+            } else if hpDiff < 10 {
+                sleep(UInt32(1.0))
+                squadToHeal[squadMember].hp += hpDiff
+                print("\(squadToHeal[squadMember].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
+            } else {
+                sleep(UInt32(1.0))
+                squadToHeal[squadMember].hp += healSkill
+                print("\(squadToHeal[squadMember].name) récupère \(healSkill) points de vie, il a maintenant \(squadToHeal[squadMember].hp)/\(squadToHeal[squadMember].maxHp) 🦸🏿‍♂️\n")
+            }
+        }
+    }
+    
+    func whoToHeal(squadToHeal: [Character]) {
+        print("Ok \(name), quel coéquipier veux-tu soigner ? 🤕 🩹\n")
+        for (index, character) in squadToHeal.enumerated() {
+            if character.hp > 0 {
+                print("\(index+1). \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
+            }
+        }
+        //        printAvailableFighter()
+        if let choice = readLine() {
+            //                let healingCharacter = fightingCharacter
+            switch choice {
+            case "1" where squadToHeal[0].hp > 0 :
+                healing(squadMember: 0, squadToHeal: squadToHeal)
+            case "2" where squadToHeal[1].hp > 0 :
+                healing(squadMember: 1, squadToHeal: squadToHeal)
+            case "3" where squadToHeal[2].hp > 0 :
+                healing(squadMember: 2, squadToHeal: squadToHeal)
+            default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
+                whoToHeal(squadToHeal: squadToHeal)
+            }
+        }
+    }
+    
+    func whoToAttack(squadToAttack: [Character]) -> Character? {
+        print("\nOk \(name), quel ennemi veux tu attaquer ? 😈\n")
+        for (index, character) in squadToAttack.enumerated() {
+            if character.hp > 0 {
+                print("\(index+1). \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
+            }
+        }
+        if let choice = readLine() {
+            switch choice {
+            case "1" where squadToAttack[0].hp > 0 :
+                return attacking(squadToAttack: squadToAttack, squadMember: 0)
+            case "2" where squadToAttack[1].hp > 0 :
+                return attacking(squadToAttack: squadToAttack, squadMember: 1)
+            case "3" where squadToAttack[2].hp > 0 :
+                return attacking(squadToAttack: squadToAttack, squadMember: 2)
+            default:
+                print("⛔️ Merci de choisir le numéro d'un des personnages de la liste ⛔️\n")
+                return whoToAttack(squadToAttack: squadToAttack)
+            }
+        }
+        return nil
+    }
+    
+    private func attacking(squadToAttack: [Character], squadMember: Int) -> Character? {
+        if squadToAttack.indices.contains(squadMember) {
+            let attackedCharacter = squadToAttack[squadMember]
+            if squadToAttack[squadMember].hp <= weapon.damages {
+                print("\nCe personnage a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
+                attackedCharacter.hp = 0
+                sleep(UInt32(2.0))
+                return attackedCharacter
+            } else {
+                attackedCharacter.hp -= weapon.damages
+                print("🤜💥 \(attackedCharacter.name) vient de perdre \(weapon.damages) hp, il lui reste \(attackedCharacter.hp)/ \(attackedCharacter.maxHp) 💔\n")
+                sleep(UInt32(2.0))
+                return nil
+            }
+        }
+        return nil
+    }
 }
 
-// FIXME: j'ai tenté de bouger whoToAttack() ici en retirant le print name du player, mais m'oblige à ammener ici ensuite attacking() puis removeDeadCharacter qui ne reconnaissent pas squad et killedEnnemy...
-
-//    func whoToAttack(squadToAttack: [Character], fightingCharacter: Character) {
-//        print("\nOk \(name), quel ennemi veux tu attaquer ? 😈\n")
-//        for (index, character) in squadToAttack.enumerated() {
-//            if character.hp > 0 {
-//                print("\(index+1). \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
-//            }
-//        }
-//        if let choice = readLine() {
-//            switch choice {
-//            case "1" where squadToAttack[0].hp > 0 :
-//                attacking(squadToAttack: squadToAttack, squadMember: 0, fightingCharacter: fightingCharacter)
-//            case "2" where squadToAttack[1].hp > 0 :
-//                attacking(squadToAttack: squadToAttack, squadMember: 1, fightingCharacter: fightingCharacter)
-//            case "3" where squadToAttack[2].hp > 0 :
-//                attacking(squadToAttack: squadToAttack, squadMember: 2, fightingCharacter: fightingCharacter)
-//            default:
-//                print("⛔️ Merci de choisir le numéro d'un des personnages de la liste ⛔️\n")
-//                whoToAttack(squadToAttack: squadToAttack, fightingCharacter: fightingCharacter)
-//            }
-//        }
-//    }
-//
-//    func removeDeadCharacter(attackedCharacter: Character) {
-//       attackedCharacter.hp = 0
-//       killedEnnemy.append(attackedCharacter)
-//   }
-//
-//    public func attacking(squadToAttack: [Character], squadMember: Int, fightingCharacter: Character) {
-//        if squad.indices.contains(squadMember) {
-//            let attackedCharacter = squadToAttack[squadMember]
-//            if squadToAttack[squadMember].hp <= fightingCharacter.weapon.damages {
-//                print("\nCe personnage a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
-//                removeDeadCharacter(attackedCharacter: attackedCharacter)
-//                sleep(UInt32(2.0))
-//            } else {
-//                attackedCharacter.hp -= fightingCharacter.weapon.damages
-//                print("🤜💥 \(attackedCharacter.name) vient de perdre \(fightingCharacter.weapon.damages) hp, il lui reste \(attackedCharacter.hp)/ \(attackedCharacter.maxHp) 💔\n")
-//                sleep(UInt32(2.0))
-//            }
-//        }
+//    func isAlive() -> Bool {
+//        return hp > 0
 //    }
