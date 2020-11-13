@@ -85,13 +85,6 @@ class Character {
     }
     
     func whoToHeal(squadToHeal: [Character]) {
-        print("Ok \(name), quel coéquipier veux-tu soigner ? 🤕 🩹\n")
-        for (index, character) in squadToHeal.enumerated() {
-            if character.hp > 0 {
-                print("\(index+1). \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
-            }
-        }
-        //        printAvailableFighter()
         if let choice = readLine() {
             //                let healingCharacter = fightingCharacter
             switch choice {
@@ -108,12 +101,6 @@ class Character {
     }
     
     func whoToAttack(squadToAttack: [Character]) -> Character? {
-        print("\nOk \(name), quel ennemi veux tu attaquer ? 😈\n")
-        for (index, character) in squadToAttack.enumerated() {
-            if character.hp > 0 {
-                print("\(index+1). \(character.name) le \(character.type) (\(character.hp)/\(character.maxHp))")
-            }
-        }
         if let choice = readLine() {
             switch choice {
             case "1" where squadToAttack[0].hp > 0 :
