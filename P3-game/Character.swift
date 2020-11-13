@@ -19,7 +19,6 @@ class Character {
     var weapon: Weapon
     var description: String
     let healSkill: Int
-    // passage de description dans l'init, n'est plus déclaré en description = ""
     init(weapon: Weapon, type: String, healSkill: Int, name: String, description: String) {
         self.weapon = weapon
         self.type = type
@@ -67,12 +66,7 @@ class Character {
     func healing(squadMember: Int, squadToHeal: [Character]) {
         let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
         if squadToHeal[squadMember].hp > 0 {
-            if squadToHeal[squadMember].hp == squadToHeal[squadMember].maxHp {
-                sleep(UInt32(1.0))
-                print("⛔️ Tu ne peux pas soigner ce personnage, il a déjà tous ses points de vie 🦾 Choisi une autre action à réaliser pour ce tour !\n")
-                //               attackEnnemyOrHealTeamMate(fightingCharacter: squadToHeal[squadMember])
-                whoToHeal(squadToHeal: squadToHeal)
-            } else if hpDiff < 10 {
+            if hpDiff <= healSkill {
                 sleep(UInt32(1.0))
                 squadToHeal[squadMember].hp += hpDiff
                 print("\(squadToHeal[squadMember].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
@@ -86,13 +80,12 @@ class Character {
     
     func whoToHeal(squadToHeal: [Character]) {
         if let choice = readLine() {
-            //                let healingCharacter = fightingCharacter
             switch choice {
-            case "1" where squadToHeal[0].hp > 0 :
+            case "1" where squadToHeal[0].hp < 100 :
                 healing(squadMember: 0, squadToHeal: squadToHeal)
-            case "2" where squadToHeal[1].hp > 0 :
+            case "2" where squadToHeal[1].hp < 100 :
                 healing(squadMember: 1, squadToHeal: squadToHeal)
-            case "3" where squadToHeal[2].hp > 0 :
+            case "3" where squadToHeal[2].hp < 100 :
                 healing(squadMember: 2, squadToHeal: squadToHeal)
             default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
                 whoToHeal(squadToHeal: squadToHeal)
@@ -135,7 +128,3 @@ class Character {
         return nil
     }
 }
-
-//    func isAlive() -> Bool {
-//        return hp > 0
-//    }

@@ -12,7 +12,7 @@ class Player {
     var name: String
     var squad = [Character]()
     var killedEnnemy = [Character]()
-
+    
     init(name: String) {
         self.name = name
     }
@@ -78,7 +78,6 @@ class Player {
     }
     
     func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
-        //FIXME: ici trouver comment intégrer directement le même characterName que le name de la class Character (remplacer name par characterName) car on est dans la class Player et qu'il y a déjà une propriété name, celle correspondant au player
         print ("\nComment veux tu l'appeler ?\n")
         // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
         guard let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty else {
@@ -99,15 +98,6 @@ class Player {
         return squad[0].hp + squad[1].hp + squad[2].hp > 0
     }
     
-    // FIXME: AU NIVEAU DU CASE "1" de attackEnnemyOrHealTeamMate() ⬇️
-    // Modifier pour un filter à la place ? du genre :
-    // for player in players {
-    //      while player.isAllSquadAlive == true {
-    //  let opponent = players.filtrer { player.name != $0.name }
-    //       }
-    //  }
-    // Puis indiquer comme squadToAttack: opponent
-    
     private func attackEnnemyOrHealTeamMate(fightingCharacter: Character)  {
         
         if squad[0].hp + squad[1].hp + squad[2].hp < 300 {
@@ -119,8 +109,12 @@ class Player {
                 case "1":
                     defineSquadToAttack(fightingCharacter: fightingCharacter)
                 case "2":
-                    print("\(name), quel coéquipier veux-tu soigner ? 🤕 🩹\n")
-                    printAvailableFighter(squad: squad)
+                    print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
+                    for (index, character) in squad.enumerated() {
+                        if character.hp < 100 {
+                            print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
+                        }
+                    }
                     fightingCharacter.whoToHeal(squadToHeal: squad)
                 default:
                     print("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
@@ -128,7 +122,7 @@ class Player {
                 }
             }
         } else {
-            print("⚔️ Tu peux uniquement attaquer pour ce tour puisque tous tes personnages ont 100/100 HP !")
+            print("⚔️ Tu peux uniquement attaquer pour ce tour puisque tous tes personnages ont 100/100 HP 💪 !\n")
             defineSquadToAttack(fightingCharacter: fightingCharacter)
         }
     }
@@ -139,23 +133,23 @@ class Player {
         if Player.indexCountHelper == 0 {
             let squadToAttack = game.players[1].squad
             printAvailableFighter(squad: squadToAttack)
+            
             if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
-            killedEnnemy.append(character)
+                killedEnnemy.append(character)
             }
         } else if Player.indexCountHelper == 1 {
             let squadToAttack = game.players[0].squad
             printAvailableFighter(squad: squadToAttack)
             if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
-            killedEnnemy.append(character)
+                killedEnnemy.append(character)
             }
         }
     }
     
     func printAvailableFighter(squad: [Character]) {
         for (index, character) in squad.enumerated() {
-            if character.hp > 0 {
-                print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
-            }
+            print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
+
         }
     }
     
@@ -180,8 +174,6 @@ class Player {
             }
         }
     }
-    
-    //FIXME: Ajouter le filter dans choosenFighterAction() ? Puis indiquer l'opponent en valeur de squadToAttack simplement dans le case 1 de attackEnnemyOrHealTeamMate() ?! pour ensuite supprimer indexCountHelper, if et else du case 1 (et startFight() pour indexCountHelper) ⬇️
     
     private func choosenFighterAction(fighterNumber: Int) {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
