@@ -61,45 +61,38 @@ class Character {
                 + "\n🆔 Type : \(type)")
     }
     
-    private func healBasic(squadMember: Int, squadToHeal: [Character]) {
-        sleep(UInt32(1.0))
-        squadToHeal[squadMember].hp += healSkill
-        print("\(squadToHeal[squadMember].name) récupère \(healSkill) points de vie, il a maintenant \(squadToHeal[squadMember].hp)/\(squadToHeal[squadMember].maxHp) 🦸🏿‍♂️\n")
+    func isHealable() -> Bool {
+        return hp > 0 && hp < 100
     }
     
-    private func healToTheMax(squadMember: Int, squadToHeal: [Character], hpDiff: Int) {
-        if hpDiff <= healSkill {
-            sleep(UInt32(1.0))
-            squadToHeal[squadMember].hp += hpDiff
-            print("\(squadToHeal[squadMember].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
-        }
-    }
     
     private func healing(squadMember: Int, squadToHeal: [Character]) {
         let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
         if squadToHeal[squadMember].hp > 0 {
+            sleep(UInt32(1.0))
+            let hp = hpDiff <= healSkill ? hpDiff : healSkill
+            squadToHeal[squadMember].hp += hp
             if hpDiff <= healSkill {
-                healToTheMax(squadMember: squadMember, squadToHeal: squadToHeal, hpDiff: hpDiff)
+                print("\(squadToHeal[squadMember].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
             } else {
-                healBasic(squadMember: squadMember, squadToHeal: squadToHeal)
+                print("\(squadToHeal[squadMember].name) récupère \(healSkill) points de vie, il a maintenant \(squadToHeal[squadMember].hp)/\(squadToHeal[squadMember].maxHp) 🦸🏿‍♂️\n")
             }
         }
     }
     
     func whoToHeal(squadToHeal: [Character]) {
-//        if squadToHeal[squadMember].hp > 0 {}
-            if let choice = readLine() {
-                switch choice {
-                case "1" where squadToHeal[0].hp < 100 && squadToHeal[0].hp > 0 :
-                    healing(squadMember: 0, squadToHeal: squadToHeal)
-                case "2" where squadToHeal[1].hp < 100 && squadToHeal[1].hp > 0 :
-                    healing(squadMember: 1, squadToHeal: squadToHeal)
-                case "3" where squadToHeal[2].hp < 100 && squadToHeal[2].hp > 0 :
-                    healing(squadMember: 2, squadToHeal: squadToHeal)
-                default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
-                    whoToHeal(squadToHeal: squadToHeal)
-                }
+        if let choice = readLine() {
+            switch choice {
+            case "1" where squadToHeal[0].hp < 100 && squadToHeal[0].hp > 0 :
+                healing(squadMember: 0, squadToHeal: squadToHeal)
+            case "2" where squadToHeal[1].hp < 100 && squadToHeal[1].hp > 0 :
+                healing(squadMember: 1, squadToHeal: squadToHeal)
+            case "3" where squadToHeal[2].hp < 100 && squadToHeal[2].hp > 0 :
+                healing(squadMember: 2, squadToHeal: squadToHeal)
+            default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
+                whoToHeal(squadToHeal: squadToHeal)
             }
+        }
     }
     
     func whoToAttack(squadToAttack: [Character]) -> Character? {
