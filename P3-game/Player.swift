@@ -52,7 +52,6 @@ class Player {
     
     public func makeMySquad() {
         while squad.count < 3 {
-            //FIXME: trouver comment déclarer name avant chooseNameOfCharacter (définit dans les cases) dans playableCharacters
             let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
             print("Choisis le personnages numéro \(squad.count+1) : \n")
             for characters in playableCharacters {
@@ -97,17 +96,16 @@ class Player {
         return squad[0].hp + squad[1].hp + squad[2].hp > 0
     }
     
-    private func attackEnemyOrHealTeamMate(fightingCharacter: Character)  {
-        // FIXME: trouver une façon de dire que les persos proposés doivent avoir + de 0 HP etmoins de 100
+    private func attackEnemyOrHealTeamMate(fightingCharacter: Character, squadToAttack: [Character])  {
         print("\(name) Quelle action veux-tu réaliser ? \n"
                 + "\n1. Attaquer un ennemi ⚔️\n"
                 + "\n2. Soigner un coéquipier 🏥\n")
         if let choice = readLine() {
             switch choice {
             case "1" :
-                attackEnemy(fightingCharacter: fightingCharacter)
+                attackEnemy(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
             case "2"  :
-               var isHealable = false
+                var isHealable = false
                 for character in squad where character.isHealable() {
                     isHealable = true
                     healTeamMate(fightingCharacter: fightingCharacter)
@@ -116,11 +114,11 @@ class Player {
                 if isHealable == false {
                     print("Personne à soigner dans ton équipe, il faut forcément que tu attaques un ennemi pour ce tour !\n")
                     sleep(UInt32(1.0))
-                    attackEnemy(fightingCharacter: fightingCharacter)
+                    attackEnemy(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
                 }
             default:
                 print("⛔️ Merci de taper 1 ou 2 pour choisir l'action correspondante ⛔️\n")
-                attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
+                attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
             }
         }
     }
@@ -136,25 +134,6 @@ class Player {
         sleep(UInt32(1.0))
     }
     
-    private func attackEnemy(fightingCharacter: Character) {
-        print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
-        // Si l'index est sur le player[0], attack enemy à l'index 1, else fait l'inverse (si indexCountHelper != 0) ⬇️
-        if Player.indexCountHelper == 0 {
-            let squadToAttack = game.players[1].squad
-            attackAndKillIfSo(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
-        } else if Player.indexCountHelper == 1 {
-            let squadToAttack = game.players[0].squad
-            attackAndKillIfSo(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
-        }
-    }
-    
-    private func attackAndKillIfSo(fightingCharacter: Character, squadToAttack: [Character]) {
-        printAvailableFighter(squad: squadToAttack)
-        if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
-            killedEnemy.append(character)
-        }
-    }
-    
     private func printAvailableFighter(squad: [Character]) {
         for (index, character) in squad.enumerated() {
             if character.hp > 0 {
@@ -163,7 +142,15 @@ class Player {
         }
     }
     
-    func pickFighter() {
+    private func attackEnemy(fightingCharacter: Character, squadToAttack: [Character]) {
+        print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
+        printAvailableFighter(squad: squadToAttack)
+        if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
+            killedEnemy.append(character)
+        }
+    }
+    
+    func pickFighterAndAction(squadToAttack: [Character]) {
         if isAllSquadAlive() {
             // Choix du character qui va combattre par le player dans son squad ⬇️
             print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
@@ -172,24 +159,24 @@ class Player {
             if let choice = readLine() {
                 switch choice {
                 case "1" where squad[0].hp > 0 :
-                    choosenFighterAction(fighterNumber: 0)
+                    choosenFighterAction(fighterNumber: 0, squadToAttack: squadToAttack)
                 case "2" where squad[1].hp > 0  :
-                    choosenFighterAction(fighterNumber: 1)
+                    choosenFighterAction(fighterNumber: 1, squadToAttack: squadToAttack)
                 case "3" where squad[2].hp > 0 :
-                    choosenFighterAction(fighterNumber: 2)
+                    choosenFighterAction(fighterNumber: 2, squadToAttack: squadToAttack)
                 default :
                     print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
-                    pickFighter()
+                    pickFighterAndAction(squadToAttack: squadToAttack)
                 }
             }
         }
     }
     
-    private func choosenFighterAction(fighterNumber: Int) {
+    private func choosenFighterAction(fighterNumber: Int, squadToAttack: [Character]) {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
         let fightingCharacter = squad[fighterNumber]
         fightingCharacter.mayOpenChest()
-        attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter)
+        attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
     }
     
     func showStatistic(index: Int) {

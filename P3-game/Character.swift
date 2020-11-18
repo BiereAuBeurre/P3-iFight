@@ -8,7 +8,7 @@
 import Foundation
 
 class Character {
-    //  private let minHp = 0
+    
     var hp = 100
     let name: String
     let maxHp = 100
@@ -65,17 +65,19 @@ class Character {
         return hp > 0 && hp < 100
     }
     
-    
     private func healing(squadMember: Int, squadToHeal: [Character]) {
-        let hpDiff = squadToHeal[squadMember].maxHp - squadToHeal[squadMember].hp
-        if squadToHeal[squadMember].hp > 0 {
+        let healedCharacter = squadToHeal[squadMember]
+        let hpDiff = healedCharacter.maxHp - healedCharacter.hp
+        
+        if healedCharacter.hp > 0 {
             sleep(UInt32(1.0))
             let hp = hpDiff <= healSkill ? hpDiff : healSkill
-            squadToHeal[squadMember].hp += hp
+            healedCharacter.hp += hp
+
             if hpDiff <= healSkill {
-                print("\(squadToHeal[squadMember].name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
+                print("\(healedCharacter.name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
             } else {
-                print("\(squadToHeal[squadMember].name) récupère \(healSkill) points de vie, il a maintenant \(squadToHeal[squadMember].hp)/\(squadToHeal[squadMember].maxHp) 🦸🏿‍♂️\n")
+                print("\(healedCharacter.name) récupère \(healSkill) points de vie, il a maintenant \(healedCharacter.hp)/\(healedCharacter.maxHp) 🦸🏿‍♂️\n")
             }
         }
     }
@@ -115,18 +117,17 @@ class Character {
     private func attacking(squadToAttack: [Character], squadMember: Int) -> Character? {
         if squadToAttack.indices.contains(squadMember) {
             let attackedCharacter = squadToAttack[squadMember]
-            if squadToAttack[squadMember].hp <= weapon.damages {
+            if attackedCharacter.hp <= weapon.damages {
                 print("\n\(attackedCharacter.name) a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
                 attackedCharacter.hp = 0
-                sleep(UInt32(2.0))
                 return attackedCharacter
             } else {
                 attackedCharacter.hp -= weapon.damages
                 print("🤜💥 \(attackedCharacter.name) vient de perdre \(weapon.damages) hp, il lui reste \(attackedCharacter.hp)/ \(attackedCharacter.maxHp) 💔\n")
-                sleep(UInt32(2.0))
                 return nil
             }
         }
+        sleep(UInt32(2.0))
         return nil
     }
 }

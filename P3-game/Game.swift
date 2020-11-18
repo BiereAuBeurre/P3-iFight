@@ -34,7 +34,7 @@ class Game {
     }
     
     private func makeTeams() {
-        /* Assigner les équipes */
+        // Création du squad composé de 3 personnages ⬇️
         for player in players {
             player.makeMySquad()
         }
@@ -56,16 +56,21 @@ class Game {
         // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
         print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
                 + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
-                + "\n                   ⚔️ \(game.players[0].name) 🆚 \(game.players[1].name) ⚔️\n\n")
-        game.players[0].showStatistic(index: 1)
+                + "\n                   ⚔️ \(players[0].name) 🆚 \(players[1].name) ⚔️\n\n")
+        players[0].showStatistic(index: 1)
         sleep(UInt32(1.0))
-        game.players[1].showStatistic(index: 0)
+        players[1].showStatistic(index: 0)
     }
     
     func startFight() {
         while players[0].isAllSquadAlive() && players[1].isAllSquadAlive() {
             for player in players {
-                player.pickFighter()
+                // Si l'index est sur le player[0], attack enemy à l'index 1, else fait l'inverse  ⬇️
+                if Player.indexCountHelper == 0 {
+                    player.pickFighterAndAction(squadToAttack: players[1].squad)
+                } else {
+                    player.pickFighterAndAction(squadToAttack: players[0].squad)
+                }
                 Game.round += 1
                 Player.indexCountHelper += 1
             }
