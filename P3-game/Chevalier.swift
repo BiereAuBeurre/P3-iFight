@@ -9,6 +9,8 @@
 import Foundation
 
 class Chevalier: Character {
+    // MARK: - Public properties
+    
     init(name: String) {
         let weapon = Sword()
         let type = "Chevalier"

@@ -7,23 +7,90 @@
 import Foundation
 
 class Player {
+    // MARK: - Public properties
     
     static var indexCountHelper = 0
     var name: String
     var squad = [Character]()
-    var killedEnemy = [Character]()
     init(name: String) {
         self.name = name
     }
     
-    enum CharactersList {
+    // MARK: - Private properties
+    
+    private var killedEnemy = [Character]()
+    
+    // MARK: - Public methods
+    
+    func makeMySquad() {
+        while squad.count < 3 {
+            let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
+            print("Choisis le personnages numéro \(squad.count+1) : \n")
+            for characters in playableCharacters {
+                print(characters.description)
+            }
+            let choice = readLine()
+            switch choice {
+            case "1":
+                madeCharacterInSquad(is: .magicien)
+            case "2":
+                madeCharacterInSquad(is: .chevalier)
+            case "3":
+                madeCharacterInSquad(is: .dragon)
+            case "4":
+                madeCharacterInSquad(is: .druide)
+            case "5":
+                madeCharacterInSquad(is: .sorcier)
+            default:
+                print("⛔️ Merci de taper un chiffre entre 1 et 5 pour chosir le personnage correspondant ⛔️")
+            }
+        }
+    }
+    
+    func isAllSquadAlive() -> Bool {
+        return squad[0].hp + squad[1].hp + squad[2].hp > 0
+    }
+    
+    func pickFighterAndAction(squadToAttack: [Character]) {
+        if isAllSquadAlive() {
+            // Choix du character qui va combattre par le player dans son squad ⬇️
+            print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
+            sleep(UInt32(1.0))
+            printAvailableFighter(squad: squad)
+            if let choice = readLine() {
+                switch choice {
+                case "1" where squad[0].hp > 0 :
+                    choosenFighterAction(fighterNumber: 0, squadToAttack: squadToAttack)
+                case "2" where squad[1].hp > 0  :
+                    choosenFighterAction(fighterNumber: 1, squadToAttack: squadToAttack)
+                case "3" where squad[2].hp > 0 :
+                    choosenFighterAction(fighterNumber: 2, squadToAttack: squadToAttack)
+                default :
+                    print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
+                    pickFighterAndAction(squadToAttack: squadToAttack)
+                }
+            }
+        }
+    }
+    
+    func showStatistic(opponent: Player) {
+        //Si j'ai 3 killedEnemy, j'ai gagné, sinon j'ai perdu
+        if killedEnemy.count == 3 {
+            winnerStats(opponent: opponent)
+        } else {
+            looserStats(opponent: opponent)
+        }
+    }
+    // MARK: - Private methods
+    
+    private enum CharactersList {
         case magicien, chevalier, dragon, druide, sorcier
     }
     
     private func madeCharacterInSquad(is character: CharactersList) {
         switch character {
         case .magicien:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "MAgicien") {
+            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Magicien") {
                 let magicien = Magicien(name: characterName)
                 squad.append(magicien)
             }
@@ -50,32 +117,7 @@ class Player {
         }
     }
     
-    public func makeMySquad() {
-        while squad.count < 3 {
-            let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
-            print("Choisis le personnages numéro \(squad.count+1) : \n")
-            for characters in playableCharacters {
-                print(characters.description)
-            }
-            let choice = readLine()
-            switch choice {
-            case "1":
-                madeCharacterInSquad(is: .magicien)
-            case "2":
-                madeCharacterInSquad(is: .chevalier)
-            case "3":
-                madeCharacterInSquad(is: .dragon)
-            case "4":
-                madeCharacterInSquad(is: .druide)
-            case "5":
-                madeCharacterInSquad(is: .sorcier)
-            default:
-                print("⛔️ Merci de taper un chiffre entre 1 et 5 pour chosir le personnage correspondant ⛔️")
-            }
-        }
-    }
-    
-    func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
+    private func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
         print ("\nComment veux tu l'appeler ?\n")
         // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
         guard let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty else {
@@ -90,10 +132,6 @@ class Player {
             print("Très bien ! Ton \(typeOfCharacter) se nommera \(userInput)\n")
             return userInput
         }
-    }
-    
-    func isAllSquadAlive() -> Bool {
-        return squad[0].hp + squad[1].hp + squad[2].hp > 0
     }
     
     private func attackEnemyOrHealTeamMate(fightingCharacter: Character, squadToAttack: [Character])  {
@@ -150,28 +188,6 @@ class Player {
         }
     }
     
-    func pickFighterAndAction(squadToAttack: [Character]) {
-        if isAllSquadAlive() {
-            // Choix du character qui va combattre par le player dans son squad ⬇️
-            print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
-            sleep(UInt32(1.0))
-            printAvailableFighter(squad: squad)
-            if let choice = readLine() {
-                switch choice {
-                case "1" where squad[0].hp > 0 :
-                    choosenFighterAction(fighterNumber: 0, squadToAttack: squadToAttack)
-                case "2" where squad[1].hp > 0  :
-                    choosenFighterAction(fighterNumber: 1, squadToAttack: squadToAttack)
-                case "3" where squad[2].hp > 0 :
-                    choosenFighterAction(fighterNumber: 2, squadToAttack: squadToAttack)
-                default :
-                    print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
-                    pickFighterAndAction(squadToAttack: squadToAttack)
-                }
-            }
-        }
-    }
-    
     private func choosenFighterAction(fighterNumber: Int, squadToAttack: [Character]) {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
         let fightingCharacter = squad[fighterNumber]
@@ -179,17 +195,8 @@ class Player {
         attackEnemyOrHealTeamMate(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
     }
     
-    func showStatistic(index: Int) {
-        //Si j'ai 3 killedEnemy, j'ai gagné, sinon j'ai perdu
-        if killedEnemy.count == 3 {
-            winnerStats(index: index)
-        } else {
-            looserStats(index: index)
-        }
-    }
-    
-    private func winnerStats(index: Int) {
-        print("\n🥳 \(name) tu as gagné après avoir tué toute l'équipe \(game.players[index].name) :")
+    private func winnerStats(opponent: Player) {
+        print("\n🥳 \(name) tu as gagné après avoir tué toute l'équipe \(opponent.name) :")
         for enemy in killedEnemy {
             enemy.presentation()
         }
@@ -203,14 +210,14 @@ class Player {
         }
     }
     
-    private func looserStats(index: Int) {
+    private func looserStats(opponent: Player) {
         print("\n👎 \(name) tu as perdu 😭 toute ton équipe nous a quitté... :\n")
         for character in squad {
             character.presentation()
         }
         if killedEnemy.count == 1 {
             sleep(UInt32(1.0))
-            print("\nTu as sauvé l'honneur face à \(game.players[index].name) en éliminant ⬇️")
+            print("\nTu as sauvé l'honneur face à \(opponent.name) en éliminant ⬇️")
             killedEnemy[0].presentation()
         }
         if killedEnemy.count == 0 {

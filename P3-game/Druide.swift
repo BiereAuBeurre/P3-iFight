@@ -9,6 +9,8 @@
 import Foundation
 
 class Druide: Character {
+    // MARK: - Public properties
+    
     init(name: String) {
         let weapon = Fate()
         let type = "Druide"

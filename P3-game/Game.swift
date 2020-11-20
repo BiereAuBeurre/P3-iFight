@@ -9,10 +9,30 @@ import Foundation
 
 class Game {
     
-    private let maxNumberOfPlayers = 2
-    var players: [Player] = []
+    // MARK: - Public properties
+    
     static var round = 0
+    
+    // MARK: - Private properties
+    
+    private var players: [Player] = []
+    private let maxNumberOfPlayers = 2
     private var playerNames = [String]()
+    
+    // MARK: - Public methods
+    
+    func startGame() {
+        print("Bienvenue dans le jeu joueur \(players.count+1) !\n")
+        for _ in 1...maxNumberOfPlayers {
+            // Création de l'équipe par un choix de nom ⬇️
+            makePlayer()
+            // Création du squad composé de 3 personnages ⬇️
+            makeTeams()
+        }
+        startFight()
+        endOfGame()
+    }
+    // MARK: - Private methods
     
     private func makePlayer() {
         print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
@@ -22,7 +42,6 @@ class Game {
                 makePlayer()
             } else {
                 let player = Player(name: playerName)
-                player.name = playerName
                 players.append(player)
                 playerNames.append(playerName)
                 print("\nTrès bien équipe \(player.name), forme ton équipe de 3 personnages :\n")
@@ -40,29 +59,17 @@ class Game {
         }
     }
     
-    func startGame() {
-        print("Bienvenue dans le jeu joueur \(players.count+1) !\n")
-        for _ in 1...maxNumberOfPlayers {
-            // Création de l'équipe par un choix de nom ⬇️
-            makePlayer()
-            // Création du squad composé de 3 personnages ⬇️
-            makeTeams()
-        }
-        startFight()
-        endOfGame()
-    }
-    
     private func endOfGame() {
         // Print les stats de fin de partie, pour l'index 0 et 1 correspondant aux 2 players quand la condition while l55 n'est plus respectée ⬇️
-        print ("\n                   🕹🎮 GAME OVER 🎮🕹\n"
+        print ("\n                    🕹🎮 GAME OVER 🎮🕹\n"
                 + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
                 + "\n                   ⚔️ \(players[0].name) 🆚 \(players[1].name) ⚔️\n\n")
-        players[0].showStatistic(index: 1)
+        players[0].showStatistic(opponent: players[1])
         sleep(UInt32(1.0))
-        players[1].showStatistic(index: 0)
+        players[1].showStatistic(opponent: players[0])
     }
     
-    func startFight() {
+    private func startFight() {
         while players[0].isAllSquadAlive() && players[1].isAllSquadAlive() {
             for player in players {
                 // Si l'index est sur le player[0], attack enemy à l'index 1, else fait l'inverse  ⬇️

@@ -9,6 +9,8 @@
 import Foundation
 
 class FlameThrower: Weapon {
+    // MARK: - Public properties
+    
     init() {
         super.init(damages: 60, name: "Lance-flammes 🔥")
     }

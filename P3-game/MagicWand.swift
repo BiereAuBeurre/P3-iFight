@@ -9,6 +9,8 @@
 import Foundation
 
 class MagicWand: Weapon {
+    // MARK: - Public properties
+    
     init() {
         super.init(damages: 50, name: "Baguette magique 🧚‍♀️")
     }
