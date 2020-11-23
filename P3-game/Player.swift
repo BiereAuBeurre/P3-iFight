@@ -7,9 +7,7 @@
 import Foundation
 
 class Player {
-    // MARK: - Public properties
-    
-    static var indexCountHelper = 0
+    // MARK: - Internal properties
     var name: String
     var squad = [Character]()
     init(name: String) {
@@ -17,11 +15,9 @@ class Player {
     }
     
     // MARK: - Private properties
-    
     private var killedEnemy = [Character]()
     
-    // MARK: - Public methods
-    
+    // MARK: - Internal methods
     func makeMySquad() {
         while squad.count < 3 {
             let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
@@ -82,7 +78,6 @@ class Player {
         }
     }
     // MARK: - Private methods
-    
     private enum CharactersList {
         case magicien, chevalier, dragon, druide, sorcier
     }
@@ -119,7 +114,7 @@ class Player {
     
     private func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
         print ("\nComment veux tu l'appeler ?\n")
-        // Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
+        /// Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
         guard let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty else {
             print("Merci de renseigner un nom pour ton personnage")
             return chooseNameOfCharacter(typeOfCharacter: typeOfCharacter)
@@ -228,6 +223,16 @@ class Player {
             print("\nDommage ! Tu es passé à ça 🤏 de la victoire en éliminant ⬇️\n")
             killedEnemy[0].presentation()
             killedEnemy[1].presentation()
+        }
+    }
+}
+
+extension Player: Equatable {
+    static func == (lhs: Player, rhs: Player) -> Bool {
+        if lhs.name == rhs.name {
+            return true
+        } else {
+            return false
         }
     }
 }

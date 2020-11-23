@@ -11,7 +11,7 @@ class Character {
     // MARK: - Public properties
     
     var hp = 100
-    let name: String
+    var name: String
     let maxHp = 100
     static var names = [String]()
     let type: String
