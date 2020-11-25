@@ -9,8 +9,7 @@
 import Foundation
 
 class Weapon {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     var damages: Int
     var name: String
     init(damages: Int, name: String) {

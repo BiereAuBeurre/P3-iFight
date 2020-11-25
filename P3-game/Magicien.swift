@@ -9,8 +9,7 @@
 import Foundation
 
 class Magicien: Character {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init(name: String) {
         let healSkill = 15
         let weapon = MagicWand()

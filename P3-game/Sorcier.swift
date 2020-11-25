@@ -9,8 +9,7 @@
 import Foundation
 
 class Sorcier: Character {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init(name: String) {
         let weapon = MagicPotion()
         let type = "Sorcier"

@@ -9,8 +9,7 @@
 import Foundation
 
 class Fate: Weapon {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init() {
         super.init(damages: 40, name: "Sort 🧙‍♂️")
     }

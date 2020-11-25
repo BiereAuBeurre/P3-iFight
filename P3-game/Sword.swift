@@ -9,8 +9,7 @@
 import Foundation
 
 class Sword: Weapon {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init() {
         super.init(damages: 30, name: "Épée ⚔️")
     }

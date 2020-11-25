@@ -8,8 +8,7 @@
 import Foundation
 
 class Character {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     var hp = 100
     var name: String
     let maxHp = 100
@@ -27,8 +26,7 @@ class Character {
         self.description = description
     }
     
-    // MARK: - Public methods
-    
+    // MARK: - Internal methods
     func mayOpenChest() {
         let number = Int.random(in: 0...10)
         if number <= 1 {
@@ -92,7 +90,6 @@ class Character {
     }
     
     // MARK: - Private methods
-    
     private func chestLoading() {
         print("BONUS 🎁 :\n")
         sleep(UInt32(1.0))

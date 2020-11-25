@@ -9,8 +9,7 @@
 import Foundation
 
 class Druide: Character {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init(name: String) {
         let weapon = Fate()
         let type = "Druide"

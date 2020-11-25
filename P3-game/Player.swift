@@ -27,16 +27,31 @@ class Player {
             }
             let choice = readLine()
             switch choice {
-            case "1":
-                madeCharacterInSquad(is: .magicien)
+            case "1" :
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.magicien.rawValue) {
+                    let magicien = Magicien(name: characterName)
+                    squad.append(magicien)
+                }
             case "2":
-                madeCharacterInSquad(is: .chevalier)
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.chevalier.rawValue) {
+                    let chevalier = Chevalier(name: characterName)
+                    squad.append(chevalier)
+                }
             case "3":
-                madeCharacterInSquad(is: .dragon)
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.dragon.rawValue) {
+                    let dragon = Dragon(name: characterName)
+                    squad.append(dragon)
+                }
             case "4":
-                madeCharacterInSquad(is: .druide)
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.druide.rawValue) {
+                    let druide = Druide(name: characterName)
+                    squad.append(druide)
+                }
             case "5":
-                madeCharacterInSquad(is: .sorcier)
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.sorcier.rawValue) {
+                    let sorcier = Sorcier(name: characterName)
+                    squad.append(sorcier)
+                }
             default:
                 print("⛔️ Merci de taper un chiffre entre 1 et 5 pour chosir le personnage correspondant ⛔️")
             }
@@ -49,7 +64,7 @@ class Player {
     
     func pickFighterAndAction(squadToAttack: [Character]) {
         if isAllSquadAlive() {
-            // Choix du character qui va combattre par le player dans son squad ⬇️
+            /// The player pick the character of his choice (from his own squad) to play with for this round.  ⬇️
             print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
             sleep(UInt32(1.0))
             printAvailableFighter(squad: squad)
@@ -70,51 +85,26 @@ class Player {
     }
     
     func showStatistic(opponent: Player) {
-        //Si j'ai 3 killedEnemy, j'ai gagné, sinon j'ai perdu
+        /// If I kill 3 enemies I'm the winner, else I'm the looser.
         if killedEnemy.count == 3 {
             winnerStats(opponent: opponent)
         } else {
             looserStats(opponent: opponent)
         }
     }
+    
     // MARK: - Private methods
-    private enum CharactersList {
-        case magicien, chevalier, dragon, druide, sorcier
+    private enum CharactersList: String {
+        case magicien = "Magicien"
+        case chevalier = "chevalier"
+        case dragon = "dragon"
+        case druide = "druide"
+        case sorcier = "sorcier"
     }
-    
-    private func madeCharacterInSquad(is character: CharactersList) {
-        switch character {
-        case .magicien:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Magicien") {
-                let magicien = Magicien(name: characterName)
-                squad.append(magicien)
-            }
-        case .chevalier:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Chevalier") {
-                let chevalier = Chevalier(name: characterName)
-                squad.append(chevalier)
-            }
-        case .dragon:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Dragon") {
-                let dragon = Dragon(name: characterName)
-                squad.append(dragon)
-            }
-        case .druide:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Druide") {
-                let druide = Druide(name: characterName)
-                squad.append(druide)
-            }
-        case .sorcier:
-            if let characterName = chooseNameOfCharacter(typeOfCharacter: "Sorcier") {
-                let sorcier = Sorcier(name: characterName)
-                squad.append(sorcier)
-            }
-        }
-    }
-    
+
     private func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
         print ("\nComment veux tu l'appeler ?\n")
-        /// Indique que le characterName doit forcément contenir un readLine pour être enregsitré, sinon demander à nouveau à l'utilisateur ⬇️,
+        /// Indicate that the userInput can't accept a readLine() that is empty or nil. If it is so, it'll be ask again to the user until he gives a valid name. ⬇️
         guard let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty else {
             print("Merci de renseigner un nom pour ton personnage")
             return chooseNameOfCharacter(typeOfCharacter: typeOfCharacter)

@@ -9,8 +9,7 @@
 import Foundation
 
 class Dragon: Character {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init(name: String) {
         let weapon = FlameThrower()
         let type = "Dragon"

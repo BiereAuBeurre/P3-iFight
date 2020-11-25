@@ -9,8 +9,7 @@
 import Foundation
 
 class MagicPotion: Weapon {
-    // MARK: - Public properties
-    
+    // MARK: - Internal properties
     init() {
         super.init(damages: 50, name: "Potion magique 🍵")
     }
