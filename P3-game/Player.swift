@@ -10,6 +10,7 @@ class Player {
     // MARK: - Internal properties
     var name: String
     var squad = [Character]()
+
     init(name: String) {
         self.name = name
     }
@@ -20,6 +21,7 @@ class Player {
     // MARK: - Internal methods
     func makeMySquad() {
         while squad.count < 3 {
+            /// Creating an array of the different playable characters to print each of their description (in l28) in order to be chosen by the player. Thanks to the while condition, it'll be repeated until the squad.count is equal to 3.
             let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
             print("Choisis le personnages numéro \(squad.count+1) : \n")
             for characters in playableCharacters {
@@ -27,28 +29,32 @@ class Player {
             }
             let choice = readLine()
             switch choice {
+            /// Each case matches with the selected character to :
+            ///     - ad as character name the result of chooseNameOfCharacter() (matching the rawValue in the enum as the parameter typeOfCharacter)
+            ///     - make an instance of the selected character with the characterName as the parameter name
+            ///     - and then adding the selected character to the squad of the currrent player.
             case "1" :
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.magicien.rawValue) {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: .magicien) {
                     let magicien = Magicien(name: characterName)
                     squad.append(magicien)
                 }
             case "2":
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.chevalier.rawValue) {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: .chevalier) {
                     let chevalier = Chevalier(name: characterName)
                     squad.append(chevalier)
                 }
             case "3":
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.dragon.rawValue) {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: .dragon) {
                     let dragon = Dragon(name: characterName)
                     squad.append(dragon)
                 }
             case "4":
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.druide.rawValue) {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: .druide) {
                     let druide = Druide(name: characterName)
                     squad.append(druide)
                 }
             case "5":
-                if let characterName = chooseNameOfCharacter(typeOfCharacter: CharactersList.sorcier.rawValue) {
+                if let characterName = chooseNameOfCharacter(typeOfCharacter: .sorcier) {
                     let sorcier = Sorcier(name: characterName)
                     squad.append(sorcier)
                 }
@@ -59,12 +65,13 @@ class Player {
     }
     
     func isAllSquadAlive() -> Bool {
+        /// Check if there's at least one character alive in the squad.
         return squad[0].hp + squad[1].hp + squad[2].hp > 0
     }
     
     func pickFighterAndAction(squadToAttack: [Character]) {
         if isAllSquadAlive() {
-            /// The player pick the character of his choice (from his own squad) to play with for this round.  ⬇️
+            /// The player pick the character of his choice (from his own squad) to play with for this round.
             print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
             sleep(UInt32(1.0))
             printAvailableFighter(squad: squad)
@@ -92,19 +99,18 @@ class Player {
             looserStats(opponent: opponent)
         }
     }
-    
     // MARK: - Private methods
     private enum CharactersList: String {
         case magicien = "Magicien"
-        case chevalier = "chevalier"
-        case dragon = "dragon"
-        case druide = "druide"
-        case sorcier = "sorcier"
+        case chevalier = "Chevalier"
+        case dragon = "Dragon"
+        case druide = "Druide"
+        case sorcier = "Sorcier"
     }
 
-    private func chooseNameOfCharacter(typeOfCharacter: String) -> String? {
+    private func chooseNameOfCharacter(typeOfCharacter: CharactersList) -> String? {
         print ("\nComment veux tu l'appeler ?\n")
-        /// Indicate that the userInput can't accept a readLine() that is empty or nil. If it is so, it'll be ask again to the user until he gives a valid name. ⬇️
+        /// Indicate that the userInput can't accept a readLine() that is empty or nil. If it is, it'll be asked again to the user until he gives a valid name.
         guard let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty else {
             print("Merci de renseigner un nom pour ton personnage")
             return chooseNameOfCharacter(typeOfCharacter: typeOfCharacter)
@@ -114,7 +120,7 @@ class Player {
             return chooseNameOfCharacter(typeOfCharacter: typeOfCharacter)
         } else {
             Character.names.append(userInput)
-            print("Très bien ! Ton \(typeOfCharacter) se nommera \(userInput)\n")
+            print("Très bien ! Ton \(typeOfCharacter.rawValue) se nommera \(userInput)\n")
             return userInput
         }
     }
@@ -128,6 +134,7 @@ class Player {
             case "1" :
                 attackEnemy(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
             case "2"  :
+                /// Checking if  the squad is healable (by checking each character's hp). if isHealable is false, switch to attackEnemy.
                 var isHealable = false
                 for character in squad where character.isHealable() {
                     isHealable = true
@@ -135,7 +142,7 @@ class Player {
                     break
                 }
                 if isHealable == false {
-                    print("Personne à soigner dans ton équipe, il faut forcément que tu attaques un ennemi pour ce tour !\n")
+                    print("⛔️ Il n'y a personne à soigner dans ton équipe, il faut forcément que tu attaques un ennemi pour ce tour ! ⛔️\n")
                     sleep(UInt32(1.0))
                     attackEnemy(fightingCharacter: fightingCharacter, squadToAttack: squadToAttack)
                 }
@@ -147,9 +154,9 @@ class Player {
     }
     
     private func healTeamMate(fightingCharacter: Character) {
-        print("\(name), voici le(s) coéquipier(s) que tu peux soigner. Qui choisis-tu ? 🤕 🩹\n")
+        print("\(name), qui veux-tu soigner ? 🤕 🩹\n")
         for (index, character) in squad.enumerated() {
-            if character.hp < 100 && character.hp > 0 {
+            if character.isHealable() {
                 print("\(index+1). \(character.name) le \(character.type) (♥︎ HP : \(character.hp)/\(character.maxHp) | ⚔︎ Arme : \(character.weapon.name) | ☠︎ Dégats : \(character.weapon.damages) | ✙ Soins : \(character.healSkill))")
             }
         }
@@ -169,6 +176,7 @@ class Player {
         print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
         printAvailableFighter(squad: squadToAttack)
         if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
+            /// The above let character is define by the attacking method (called in whoToAttack), which returns an attackedCharacter in the case this one hp's turn to 0. In that case, he's added to the array killedEnemy which'll be used to define the winner and loser of the game. If he lives, he'll just loose some hp from the enemy's weapon.
             killedEnemy.append(character)
         }
     }
@@ -215,14 +223,15 @@ class Player {
             killedEnemy[1].presentation()
         }
     }
+    
+    func isEqualTo(name: String) -> Bool {
+        /// Check if the name of the players[1] is equal to the name of players[0] (used only for the players[1] because players[0] can choose anythinng since there's no other playerName to compare with)
+        return self.name == name
+    }
 }
 
 extension Player: Equatable {
     static func == (lhs: Player, rhs: Player) -> Bool {
-        if lhs.name == rhs.name {
-            return true
-        } else {
-            return false
-        }
+        return lhs.name == rhs.name
     }
 }

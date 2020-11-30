@@ -36,6 +36,7 @@ class Character {
             let slingShot = Weapon(damages: 10, name: "Lance-pierres")
             let magicSword = Weapon(damages: 70, name: "Épée magique")
             let baseballBat = Weapon(damages: 15, name: "Bate de baseball")
+            /// Creating a chestWeapon with all the new weapon and then pick one random if the result of int.random as the value of let number is between 0 and five. If it is, switch the newWeapon as a weapon to the character.
             let chestWeapon = [arrow, branch, spear, slingShot, magicSword, baseballBat]
             chestLoading()
             let specialWeapon = chestWeapon.randomElement()!
@@ -54,7 +55,8 @@ class Character {
     }
     
     func isHealable() -> Bool {
-        return hp > 0 && hp < 100
+        /// Checking if a character is healable by having less than maxHp and more than 0 hp (you can't turn back to life a dead character).
+        return hp > 0 && hp < maxHp
     }
     
     func whoToHeal(squadToHeal: [Character]) {
@@ -102,12 +104,10 @@ class Character {
     private func healing(squadMember: Int, squadToHeal: [Character]) {
         let healedCharacter = squadToHeal[squadMember]
         let hpDiff = healedCharacter.maxHp - healedCharacter.hp
-        
         if healedCharacter.hp > 0 {
             sleep(UInt32(1.0))
             let hp = hpDiff <= healSkill ? hpDiff : healSkill
             healedCharacter.hp += hp
-            
             if hpDiff <= healSkill {
                 print("\(healedCharacter.name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
             } else {
@@ -119,6 +119,7 @@ class Character {
     private func attacking(squadToAttack: [Character], squadMember: Int) -> Character? {
         if squadToAttack.indices.contains(squadMember) {
             let attackedCharacter = squadToAttack[squadMember]
+            /// If the attackedCharacter's hp is lower or equal to the enemy's weapon damages, is hp'll turn to 0 (so hp will  never have a negative value).
             if attackedCharacter.hp <= weapon.damages {
                 print("\n\(attackedCharacter.name) a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
                 attackedCharacter.hp = 0
