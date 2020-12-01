@@ -119,7 +119,7 @@ class Character {
     private func attacking(squadToAttack: [Character], squadMember: Int) -> Character? {
         if squadToAttack.indices.contains(squadMember) {
             let attackedCharacter = squadToAttack[squadMember]
-            /// If the attackedCharacter's hp is lower or equal to the enemy's weapon damages, is hp'll turn to 0 (so hp will  never have a negative value).
+            /// If the attackedCharacter's hp is lower or equal to the enemy's weapon damages, his hp'll turn to 0 (so hp can't have a negative value).
             if attackedCharacter.hp <= weapon.damages {
                 print("\n\(attackedCharacter.name) a perdu ses \(attackedCharacter.hp) derniers points de vie 😢, il est mort et donc éliminé !\n")
                 attackedCharacter.hp = 0

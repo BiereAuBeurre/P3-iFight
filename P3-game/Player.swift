@@ -10,7 +10,6 @@ class Player {
     // MARK: - Internal properties
     var name: String
     var squad = [Character]()
-
     init(name: String) {
         self.name = name
     }
@@ -21,16 +20,16 @@ class Player {
     // MARK: - Internal methods
     func makeMySquad() {
         while squad.count < 3 {
-            /// Creating an array of the different playable characters to print each of their description (in l28) in order to be chosen by the player. Thanks to the while condition, it'll be repeated until the squad.count is equal to 3.
+            /// Creating an array of the different playable characters to print each of their description (in l28) in order to be chosen by the player. Thanks to the while condition, it'll be repeated until the squad.count reaches 3.
             let playableCharacters = [Magicien(name: ""), Chevalier(name: ""), Dragon(name: ""), Druide(name: ""), Sorcier(name: "")]
-            print("Choisis le personnages numéro \(squad.count+1) : \n")
+            print("Choisis le personnage numéro \(squad.count+1) : \n")
             for characters in playableCharacters {
                 print(characters.description)
             }
             let choice = readLine()
             switch choice {
             /// Each case matches with the selected character to :
-            ///     - ad as character name the result of chooseNameOfCharacter() (matching the rawValue in the enum as the parameter typeOfCharacter)
+            ///     - ad as character name the result of chooseNameOfCharacter() (matching the enum as the parameter typeOfCharacter)
             ///     - make an instance of the selected character with the characterName as the parameter name
             ///     - and then adding the selected character to the squad of the currrent player.
             case "1" :
@@ -107,7 +106,7 @@ class Player {
         case druide = "Druide"
         case sorcier = "Sorcier"
     }
-
+    
     private func chooseNameOfCharacter(typeOfCharacter: CharactersList) -> String? {
         print ("\nComment veux tu l'appeler ?\n")
         /// Indicate that the userInput can't accept a readLine() that is empty or nil. If it is, it'll be asked again to the user until he gives a valid name.
@@ -212,11 +211,10 @@ class Player {
             sleep(UInt32(1.0))
             print("\nTu as sauvé l'honneur face à \(opponent.name) en éliminant ⬇️")
             killedEnemy[0].presentation()
-        }
-        if killedEnemy.count == 0 {
+        } else if killedEnemy.count == 0 {
             sleep(UInt32(1.0))
             print("Tu ne t'es pas très bien défendu, tu n'as éliminé aucun de tes adversaires... 😐")
-        } else if killedEnemy.count == 2 {
+        } else {
             sleep(UInt32(1.0))
             print("\nDommage ! Tu es passé à ça 🤏 de la victoire en éliminant ⬇️\n")
             killedEnemy[0].presentation()

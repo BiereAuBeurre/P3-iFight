@@ -17,7 +17,9 @@ class Game {
     
     // MARK: - Internal methods
     func startGame() {
-        print("Bienvenue dans le jeu joueur \(players.count+1) !\n")
+        print("                  🌟🌟🌟   Bienvenue dans le jeu iFight 📱   🌟🌟🌟                \n"
+        + "\n💥 Chaque joueur va choisir un nom et créer son équipe, le combat pourra ensuite commencer.\n"
+        + "\n⚠️ Prenez garde : à chaque tour, vous aurez une chance sur 2 de tomber sur un coffre 🧱 qui remplacera votre arme pour une plus ou moins puissante, alors croisez les doigts 🤞\n")
         for _ in 1...maxNumberOfPlayers {
             /// Creation of the team by choosing a name.
             makePlayer()
@@ -37,12 +39,12 @@ class Game {
     private func makePlayer() {
         print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
         guard let playerName = readLine()?.trimmingCharacters(in: .whitespaces), !playerName.isEmpty else {
-            /// If the playerName written by the user doesn't respect the readLine() conditions.
+            /// If the playerName wrote by the user doesn't respect the conditions.
             print("⛔️ Merci de renseigner un nom d'équipe pour continuer ⛔️\n")
             makePlayer()
             return
         }
-        /// If there's more than one player, check if the name is similar than the previous player's one. If it is, ask to type a new one.
+        /// If there's more than one player, check if the name is the same than the previous one. If it is, ask to type a new one.
         if players.count > 0 {
             if players[0].isEqualTo(name: playerName) {
                 print("⛔️ Trop tard ! Ce nom d'équipe est déjà pris, merci d'en choisir un différent ⛔️")
@@ -54,7 +56,7 @@ class Game {
             createOnePlayer(playerName: playerName)
         }
     }
-
+    
     private func makeTeams() {
         /// Creation of a squad for each player.
         for player in players {
@@ -63,7 +65,7 @@ class Game {
     }
     
     private func endOfGame() {
-        /// Printing the game's statistics for both players[0] and players[1] when the while condition (one squad isn't alive anymore) in startFight() {} isn't respected anymore.
+        /// Printing the game's statistics for both players[0] and players[1] when the while condition (both squads are alive) in startFight() {}  isn't respected anymore.
         print ("\n                    🕹🎮 GAME OVER 🎮🕹\n"
                 + "\nAprès \(Game.round) rounds la partie est terminée, merci d'avoir joué ! 😊\n\n"
                 + "\n                   ⚔️ \(players[0].name) 🆚 \(players[1].name) ⚔️\n\n")
