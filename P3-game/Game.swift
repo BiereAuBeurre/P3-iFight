@@ -18,8 +18,8 @@ class Game {
     // MARK: - Internal methods
     func startGame() {
         print("                  🌟🌟🌟   Bienvenue dans le jeu iFight 📱   🌟🌟🌟                \n"
-        + "\n💥 Chaque joueur va choisir un nom et créer son équipe, le combat pourra ensuite commencer.\n"
-        + "\n⚠️ Prenez garde : à chaque tour, vous aurez une chance sur 2 de tomber sur un coffre 🧱 qui remplacera votre arme pour une plus ou moins puissante, alors croisez les doigts 🤞\n")
+                + "\n💥 Chaque joueur va choisir un nom et créer son équipe, le combat pourra ensuite commencer.\n"
+                + "\n⚠️ Prenez garde : à chaque tour, vous aurez une chance sur 2 de tomber sur un coffre 🧱 qui remplacera votre arme pour une plus ou moins puissante, alors croisez les doigts 🤞\n")
         for _ in 1...maxNumberOfPlayers {
             /// Creation of the team by choosing a name.
             makePlayer()
@@ -30,12 +30,6 @@ class Game {
         endOfGame()
     }
     // MARK: - Private methods
-    func createOnePlayer(playerName: String) {
-        let player = Player(name: playerName)
-        players.append(player)
-        print("\nTrès bien équipe \(player.name), forme ton équipe de 3 personnages :\n")
-    }
-    
     private func makePlayer() {
         print("Joueur \(players.count+1) à toi de choisir un nom d'équipe :\n")
         guard let playerName = readLine()?.trimmingCharacters(in: .whitespaces), !playerName.isEmpty else {
@@ -56,6 +50,13 @@ class Game {
             createOnePlayer(playerName: playerName)
         }
     }
+    
+    private func createOnePlayer(playerName: String) {
+        let player = Player(name: playerName)
+        players.append(player)
+        print("\nTrès bien équipe \(player.name), forme ton équipe de 3 personnages :\n")
+    }
+    
     
     private func makeTeams() {
         /// Creation of a squad for each player.

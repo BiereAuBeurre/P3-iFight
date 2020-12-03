@@ -63,31 +63,29 @@ class Player {
         }
     }
     
+    func pickFighterAndAction(squadToAttack: [Character]) {
+        /// The player pick the character of his choice (from his own squad) to play with for this round.
+        print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
+        sleep(UInt32(1.0))
+        printAvailableFighter(squad: squad)
+        if let choice = readLine() {
+            switch choice {
+            case "1" where squad[0].hp > 0 :
+                choosenFighterAction(fighterNumber: 0, squadToAttack: squadToAttack)
+            case "2" where squad[1].hp > 0  :
+                choosenFighterAction(fighterNumber: 1, squadToAttack: squadToAttack)
+            case "3" where squad[2].hp > 0 :
+                choosenFighterAction(fighterNumber: 2, squadToAttack: squadToAttack)
+            default :
+                print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
+                pickFighterAndAction(squadToAttack: squadToAttack)
+            }
+        }
+    }
+    
     func isAllSquadAlive() -> Bool {
         /// Check if there's at least one character alive in the squad.
         return squad[0].hp + squad[1].hp + squad[2].hp > 0
-    }
-    
-    func pickFighterAndAction(squadToAttack: [Character]) {
-        if isAllSquadAlive() {
-            /// The player pick the character of his choice (from his own squad) to play with for this round.
-            print("\(name) Sélectionne le personnage que tu souhaites faire jouer pour le round \(Game.round+1) ⬇️\n")
-            sleep(UInt32(1.0))
-            printAvailableFighter(squad: squad)
-            if let choice = readLine() {
-                switch choice {
-                case "1" where squad[0].hp > 0 :
-                    choosenFighterAction(fighterNumber: 0, squadToAttack: squadToAttack)
-                case "2" where squad[1].hp > 0  :
-                    choosenFighterAction(fighterNumber: 1, squadToAttack: squadToAttack)
-                case "3" where squad[2].hp > 0 :
-                    choosenFighterAction(fighterNumber: 2, squadToAttack: squadToAttack)
-                default :
-                    print("⛔️ Merci de choisir un personnage de ton équipe en tapant le numéro correspondant à ton choix ⛔️\n")
-                    pickFighterAndAction(squadToAttack: squadToAttack)
-                }
-            }
-        }
     }
     
     func showStatistic(opponent: Player) {
@@ -97,6 +95,11 @@ class Player {
         } else {
             looserStats(opponent: opponent)
         }
+    }
+    
+    func isEqualTo(name: String) -> Bool {
+        /// Check if the name of the players[1] is equal to the name of players[0] (used only for the players[1] because players[0] can choose anythinng since there's no other playerName to compare with)
+        return self.name == name
     }
     // MARK: - Private methods
     private enum CharactersList: String {
@@ -152,6 +155,15 @@ class Player {
         }
     }
     
+    private func attackEnemy(fightingCharacter: Character, squadToAttack: [Character]) {
+        print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
+        printAvailableFighter(squad: squadToAttack)
+        if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
+            /// The above let character is define by the attacking method (called in whoToAttack), which returns an attackedCharacter in the case this one hp's turn to 0. In that case, he's added to the array killedEnemy which'll be used to define the winner and loser of the game. If he lives, he'll just loose some hp from the enemy's weapon.
+            killedEnemy.append(character)
+        }
+    }
+    
     private func healTeamMate(fightingCharacter: Character) {
         print("\(name), qui veux-tu soigner ? 🤕 🩹\n")
         for (index, character) in squad.enumerated() {
@@ -171,14 +183,7 @@ class Player {
         }
     }
     
-    private func attackEnemy(fightingCharacter: Character, squadToAttack: [Character]) {
-        print("\(name), quel ennemi veux-tu attaquer ? 😈\n")
-        printAvailableFighter(squad: squadToAttack)
-        if let character = fightingCharacter.whoToAttack(squadToAttack: squadToAttack) {
-            /// The above let character is define by the attacking method (called in whoToAttack), which returns an attackedCharacter in the case this one hp's turn to 0. In that case, he's added to the array killedEnemy which'll be used to define the winner and loser of the game. If he lives, he'll just loose some hp from the enemy's weapon.
-            killedEnemy.append(character)
-        }
-    }
+    
     
     private func choosenFighterAction(fighterNumber: Int, squadToAttack: [Character]) {
         print("Ok tu vas jouer avec \(squad[fighterNumber].name) le \(squad[fighterNumber].type)\n")
@@ -220,11 +225,6 @@ class Player {
             killedEnemy[0].presentation()
             killedEnemy[1].presentation()
         }
-    }
-    
-    func isEqualTo(name: String) -> Bool {
-        /// Check if the name of the players[1] is equal to the name of players[0] (used only for the players[1] because players[0] can choose anythinng since there's no other playerName to compare with)
-        return self.name == name
     }
 }
 

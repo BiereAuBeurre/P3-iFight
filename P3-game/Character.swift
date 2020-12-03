@@ -29,7 +29,7 @@ class Character {
     // MARK: - Internal methods
     func mayOpenChest() {
         let number = Int.random(in: 0...10)
-        if number <= 1 {
+        if number <= 5 {
             let arrow = Weapon(damages: 80, name: "Arc")
             let branch = Weapon(damages: 5, name: "Branche")
             let spear = Weapon(damages: 65, name: "Lance")
@@ -59,21 +59,6 @@ class Character {
         return hp > 0 && hp < maxHp
     }
     
-    func whoToHeal(squadToHeal: [Character]) {
-        if let choice = readLine() {
-            switch choice {
-            case "1" where squadToHeal[0].hp < 100 && squadToHeal[0].hp > 0 :
-                healing(squadMember: 0, squadToHeal: squadToHeal)
-            case "2" where squadToHeal[1].hp < 100 && squadToHeal[1].hp > 0 :
-                healing(squadMember: 1, squadToHeal: squadToHeal)
-            case "3" where squadToHeal[2].hp < 100 && squadToHeal[2].hp > 0 :
-                healing(squadMember: 2, squadToHeal: squadToHeal)
-            default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
-                whoToHeal(squadToHeal: squadToHeal)
-            }
-        }
-    }
-    
     func whoToAttack(squadToAttack: [Character]) -> Character? {
         if let choice = readLine() {
             switch choice {
@@ -91,6 +76,21 @@ class Character {
         return nil
     }
     
+    func whoToHeal(squadToHeal: [Character]) {
+        if let choice = readLine() {
+            switch choice {
+            case "1" where squadToHeal[0].hp < 100 && squadToHeal[0].hp > 0 :
+                healing(squadMember: 0, squadToHeal: squadToHeal)
+            case "2" where squadToHeal[1].hp < 100 && squadToHeal[1].hp > 0 :
+                healing(squadMember: 1, squadToHeal: squadToHeal)
+            case "3" where squadToHeal[2].hp < 100 && squadToHeal[2].hp > 0 :
+                healing(squadMember: 2, squadToHeal: squadToHeal)
+            default: print("⛔️ Merci de choisir le numéro d'un des personnages disponible parmi la liste ⛔️\n")
+                whoToHeal(squadToHeal: squadToHeal)
+            }
+        }
+    }
+    
     // MARK: - Private methods
     private func chestLoading() {
         print("BONUS 🎁 :\n")
@@ -99,21 +99,6 @@ class Character {
         sleep(UInt32(1.0))
         print("\n⌛️ Nouvelle arme en cours de chargement...⏳\n")
         sleep(UInt32(1.0))
-    }
-    
-    private func healing(squadMember: Int, squadToHeal: [Character]) {
-        let healedCharacter = squadToHeal[squadMember]
-        let hpDiff = healedCharacter.maxHp - healedCharacter.hp
-        if healedCharacter.hp > 0 {
-            sleep(UInt32(1.0))
-            let hp = hpDiff <= healSkill ? hpDiff : healSkill
-            healedCharacter.hp += hp
-            if hpDiff <= healSkill {
-                print("\(healedCharacter.name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
-            } else {
-                print("\(healedCharacter.name) récupère \(healSkill) points de vie, il a maintenant \(healedCharacter.hp)/\(healedCharacter.maxHp) 🦸🏿‍♂️\n")
-            }
-        }
     }
     
     private func attacking(squadToAttack: [Character], squadMember: Int) -> Character? {
@@ -133,5 +118,19 @@ class Character {
         sleep(UInt32(2.0))
         return nil
     }
+    
+    private func healing(squadMember: Int, squadToHeal: [Character]) {
+        let healedCharacter = squadToHeal[squadMember]
+        let hpDiff = healedCharacter.maxHp - healedCharacter.hp
+        if healedCharacter.hp > 0 {
+            sleep(UInt32(1.0))
+            let hp = hpDiff <= healSkill ? hpDiff : healSkill
+            healedCharacter.hp += hp
+            if hpDiff <= healSkill {
+                print("\(healedCharacter.name) récupère \(hpDiff) point(s) de vie, il a de nouveau 💯 points de vie 🔥\n")
+            } else {
+                print("\(healedCharacter.name) récupère \(healSkill) points de vie, il a maintenant \(healedCharacter.hp)/\(healedCharacter.maxHp) 🦸🏿‍♂️\n")
+            }
+        }
+    }
 }
-
